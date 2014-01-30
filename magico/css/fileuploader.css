@@ -1,0 +1,155 @@
+.qq-uploader { position:relative; width: 100%;}
+
+.qq-upload-button {
+    background: none repeat scroll 0 0 #7292B2;
+	border-radius: 14px 14px 14px 14px;
+	color: #FFFFFF;
+	padding: 7px 0;
+	text-align: center;
+	width: 139px;
+	margin-bottom: 10px;
+}
+.qq-upload-button-hover {background:#8BB0D6;}
+/*.qq-upload-button-focus {outline:1px dotted black;}*/
+
+.qq-upload-drop-area {
+    position:absolute; top:0; left:0; width:100%; height:100%; min-height: 39px; z-index:2;
+    background:#7292B2; text-align:center; color: #FFFFFF; border-radius: 8px;
+}
+.qq-upload-drop-area span {
+    display:block; position:absolute; top: 50%; width:100%; margin-top:-8px; font-size:16px;
+}
+.qq-upload-drop-area-active {background:#8BB0D6; color: #FFFFFF; border-radius: 8px;}
+
+.qq-upload-list 
+{
+	background-color: #8BB0D6;
+    border: 1px solid #708FAD;
+    border-radius: 4px 4px 4px 4px;
+    color: white;
+    list-style: none outside none;
+    margin: 10px 0;
+    padding: 10px;
+	display: none;
+	overflow: hidden;
+}
+/*.qq-upload-list li */
+.qq-upload-list li div.item
+{
+	background-color: #7797B7;
+    border-radius: 2px 2px 2px 2px;
+    cursor: move;
+    float: left;
+    font-size: 13px;
+    margin-left: 10px;
+    padding: 11px;
+    width: 89%;
+}
+
+.qq-upload-list li .thumb
+{
+	display: block;
+    float: left;
+	border-radius: 4px;
+	/*cursor: url("../images/magico/zoom.gif"), auto;*/
+}
+
+.qq-upload-list li
+{
+	height: 30px;
+	margin-bottom: 8px;
+	overflow: hidden;
+	padding-top: 10px;
+}
+
+.qq-upload-list li:hover
+{
+	box-shadow: 0 0 4px 3px white;
+}
+
+.qq-upload-list li:last-child
+{
+	margin-bottom: 0;
+}
+
+.qq-upload-list li.qq-upload-success
+{
+	padding: 0;
+	height: auto;
+}
+
+.qq-upload-file, .qq-upload-spinner, .qq-upload-size, .qq-upload-cancel, .qq-upload-failed-text {
+    margin-right: 7px;
+}
+
+.qq-remove
+{
+	float: right;
+    margin-top: 2px;
+}
+
+.qq-remove img
+{
+	vertical-align: bottom;
+}
+
+.qq-drag
+{
+	margin-right: 11px;
+    margin-top: 0px;
+}
+
+.qq-upload-file, .qq-upload-size {
+	vertical-align: middle;
+	font-size: 13px;
+}
+
+.qq-upload-size {
+	display: none !important;
+}
+
+.qq-upload-spinner {
+	background: url("../images/fileupload/loading.gif") repeat scroll 0 0 transparent;
+	display: inline-block;
+	float: left;
+	height: 24px;
+	margin: -1px 20px 0 8px;
+	vertical-align: text-bottom;
+	width: 24px;
+}
+
+.qq-upload-size,.qq-upload-cancel {font-size:11px;}
+
+.qq-upload-cancel
+{
+	background: url("../images/delete_16.png") no-repeat scroll 0 0 transparent;
+	display: block;
+	float: right;
+	height: 16px;
+	margin-right: 12px;
+	width: 16px;
+}
+
+.qq-upload-failed-text {display:none;}
+.qq-upload-fail .qq-upload-failed-text {display:inline;}
+
+.qq-max-files-allowed li {
+	
+}
+
+.qq-uploader .description
+{
+	
+}
+
+.qq-uploader label
+{
+	margin-right: 10px;
+}
+
+.qq-uploader .txtDescription
+{
+	height: 14px;
+    margin: 0;
+    width: 400px;
+}

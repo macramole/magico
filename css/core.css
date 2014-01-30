@@ -1,0 +1,50 @@
+/*********** DEFAULT ***********/
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body, table, td, tr, h1, h2, h3, p, div, img, br, form, ul, fieldset
+{
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+
+ul
+{
+	/*list-style: none outside none;*/
+	list-style-position: inside;
+}
+
+button
+{
+	cursor: pointer;
+}
+
+input
+{
+	font-family: inherit;
+}
+
+body
+{
+	height: 100%;
+}
+
+table
+{
+	width: 100%;
+	border-collapse: collapse;
+}
+
+td
+{
+	vertical-align: top;
+}
+
+/*********** HELPERS ***********/
+
+.clear
+{
+	clear: both;
+}
