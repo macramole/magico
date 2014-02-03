@@ -54,13 +54,7 @@ CREATE TABLE `clean_urls` (
 /*Table structure for table `configuracion` */
 
 CREATE TABLE `configuracion` (
-  `precioActividadesRegulares` int(10) unsigned DEFAULT NULL,
-  `descuento2dias` float DEFAULT NULL,
-  `descuento3dias` float DEFAULT NULL,
-  `descuento4dias` float DEFAULT NULL,
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `descuentoAdelantado1dias` int(11) DEFAULT NULL,
-  `descuentoAdelantado2dias` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
