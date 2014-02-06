@@ -57,7 +57,7 @@ class MY_Controller extends CI_Controller {
 	 */
 	public function magico()
 	{
-		$this->masterpage->addContentPage('admin/admin_login', 'Magico');
+        $this->masterpage->addContentPage('admin/admin_login', 'Magico');
 		$this->index();
 	}
 	
@@ -230,9 +230,12 @@ class MY_Controller extends CI_Controller {
 	 */
 	public function show($additionalData = array())
 	{
-		$messages = $_SESSION['messages'] ? $_SESSION['messages'] : array();
-		$this->masterpage->addContentPage('admin/admin_nav', 'Magico', array('messages' => $messages));
-		unset($_SESSION['messages']);
+		if ( AdminUser::isLogged() )
+        {
+            $messages = $_SESSION['messages'] ? $_SESSION['messages'] : array();
+            $this->masterpage->addContentPage('admin/admin_nav', 'Magico', array('messages' => $messages));
+            unset($_SESSION['messages']);
+        }
 		
 		$data = array( 'head' => $this->magico_load(), 'title' => $this->_pageTitle, 'sectionTitle' => $this->_pageSectionTitle, 'og_image' => site_url($this->og_image), 'og_description' => $this->og_description );
 		$data = array_merge($data, $additionalData);
