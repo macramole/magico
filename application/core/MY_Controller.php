@@ -57,7 +57,7 @@ class MY_Controller extends CI_Controller {
 	 */
 	public function magico()
 	{
-		$this->masterpage->addContentPage('admin/admin_login', 'Adminnav');
+		$this->masterpage->addContentPage('admin/admin_login', 'Magico');
 		$this->index();
 	}
 	
