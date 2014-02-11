@@ -224,15 +224,19 @@ function magico_setEditables($arrContent, $model, $field, $selector, $language =
 function magico_arrPHP2JS($array, $withQuotes = true)
 {
 	$arrJs = '[';
-	foreach ( $array as $item)
-	{
-		if ($withQuotes)
-			$arrJs .= "'$item',";
-		else
-			$arrJs .= "$item,";
-	}
 	
-	$arrJs = substr($arrJs, 0, strlen($arrJs) - 1);
+	if ( count($array) )
+	{
+		foreach ( $array as $item)
+		{
+			if ($withQuotes)
+				$arrJs .= "'$item',";
+			else
+				$arrJs .= "$item,";
+		}
+
+		$arrJs = substr($arrJs, 0, strlen($arrJs) - 1);
+	}
 	
 	$arrJs .= ']';
 	

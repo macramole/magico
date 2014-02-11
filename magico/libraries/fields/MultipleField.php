@@ -14,7 +14,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  * 
  * El nombre del campo es el nombre de la tabla
  * El nombre de cada field agregado es el nombre del campo en esta tabla
- * También la tabla debe tener id, id<NombreDelContent> y weight
+ * También la tabla debe tener id, id<NombreDelModel> y weight
  * 
  * Por el momento sólo funcionan algunos tipos básicos.
  *   
