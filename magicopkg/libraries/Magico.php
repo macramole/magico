@@ -26,7 +26,7 @@
 			 */
 			define('UPLOAD_DIR','uploads/');
 			define('THUMBS_DIR',UPLOAD_DIR . 'thumbs/');
-
+            
 			//Thumbnail generator
 			define('ZEBRA_IMAGE_BOXED', 0);
 			define('ZEBRA_IMAGE_NOT_BOXED', 1);
@@ -46,11 +46,12 @@
 			define('MAGICO_CUSTOM', 2);
 			define('MAGICO_AUTO', 'auto');
 			
-			define('MAGICO_PATH', APPPATH . '../magico/');
+			define('MAGICO_DIR_NAME', 'magicopkg');
+            define('MAGICO_PATH', APPPATH . '../' . MAGICO_DIR_NAME . '/');
 			define('MAGICO_PATH_LIB', MAGICO_PATH . 'libraries/');
-			define('MAGICO_PATH_JS', 'magico/js');
-			define('MAGICO_PATH_CSS', 'magico/css');
-			define('MAGICO_PATH_IMG', 'magico/images/');
+			define('MAGICO_PATH_JS', MAGICO_DIR_NAME . '/js');
+			define('MAGICO_PATH_CSS', MAGICO_DIR_NAME . '/css');
+			define('MAGICO_PATH_IMG', MAGICO_DIR_NAME . '/images/');
 		}
 	}
 ?>

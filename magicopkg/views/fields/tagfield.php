@@ -13,7 +13,7 @@
 <script>
 	$( function() {
 		
-		$LAB.script('<?= site_url(MAGICO_PATH_JS . '/jquery.tag-it.min.js') ?>').wait( function() {
+		$LAB.script('<?= base_url(MAGICO_PATH_JS . '/jquery.tag-it.min.js') ?>').wait( function() {
 			$('#<?= $name ?>').tagit({
 				availableTags : <?= magico_arrPHP2JS($tags) ?>,
 				itemName: 'item',

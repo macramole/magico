@@ -48,7 +48,7 @@ $( function() {
 		$this.attr('disabled', true);
 		
 		$.ajax({
-			url: 'magico_login',
+			url: 'index.php?/magico_login',
 			type: 'POST',
 			data: $('section#parlebooLogin form').serialize(),
 			dataType: 'json',
