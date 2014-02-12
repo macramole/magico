@@ -37,7 +37,7 @@ $config['index_page'] = '';
 | lib by tomkrush ( https://github.com/tomkrush/CodeIgniter-Packages )
 |
 */
-$config['packages'] = array( APPPATH.'../magico' );
+$config['packages'] = array( APPPATH.'../magicopkg' );
 
 /*
 |--------------------------------------------------------------------------
