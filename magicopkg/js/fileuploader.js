@@ -710,7 +710,7 @@ qq.extend(qq.FileUploader.prototype, {
         }         
     },
 	_addDragIcon: function(item, id) {
-		item.innerHTML = '<img src="magico/images/move_icon_white.gif" class="qq-drag" />&nbsp;' + item.innerHTML
+		item.innerHTML = '<img src="magicopkg/images/move_icon_white.gif" class="qq-drag" />&nbsp;' + item.innerHTML
 	},
 	_addHiddenId: function(item, id) {
 		item.innerHTML = item.innerHTML + '<input type="hidden" name="files[]" value="'+id+'" />';
@@ -759,7 +759,7 @@ qq.extend(qq.FileUploader.prototype, {
 		if ( isNaN(id) )
 			id = id.match(/\d+$/)[0];*/
 		
-		item.innerHTML = item.innerHTML + '<span class="qq-remove"><a id="qqRm_' + id + '" href="#"><img src="magico/images/delete_16.png" title="Eliminar"></a></span>';
+		item.innerHTML = item.innerHTML + '<span class="qq-remove"><a id="qqRm_' + id + '" href="#"><img src="magicopkg/images/delete_16.png" title="Eliminar"></a></span>';
 		
 	},
     _addToList: function(id, fileName, fileId, thumb, description){

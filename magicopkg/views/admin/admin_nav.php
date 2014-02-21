@@ -13,6 +13,7 @@ global $CFG;
 $magico_nav = $CFG->item('magico_nav');
 $enableFacebook = $CFG->item('magico_enable_facebook');
 $magico_customList = $CFG->item('magico_customList');
+$magico_has_config = $CFG->item('magico_has_config');
 ?>
 <?php if ( AdminUser::isLogged() ) : ?>
 	<div id="adminNavWrapper">
@@ -40,6 +41,13 @@ $magico_customList = $CFG->item('magico_customList');
 			</ul>
 			<ul class="settings">
 				<li class="title"><?= lang('magico_nav_settings') ?></li>
+				
+				<?php if ( $magico_has_config ) : ?>
+				<li class="item">
+					<a href="<?= site_url('abm/edit/Configuracion/1') ?>" title="">Configuración general</a>
+				</li>
+				<?php endif; ?>
+				
 				<li class="item">
 					<a href="<?= site_url('abm/edit/Admin/' . $this->adminuser->getId() ) ?>" title=""><?= lang('magico_nav_edit_admin') ?></a>
 				</li>
