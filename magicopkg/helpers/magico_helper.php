@@ -698,13 +698,18 @@ function magico_setLocale($locale)
 		setlocale(LC_ALL, $locale . '_' . strtoupper($locale));
 }
 
-function magico_getGlobalConfig()
+function magico_getGlobalConfig($item = null)
 {
 	$ci =& get_instance();
-	return $ci->db->get('configuracion')->row_array();
+	$config = $ci->db->get('configuracion')->row_array();
+	
+	if ( !$item )
+		return $config;
+	else
+		return $config[$item];
 }
 
-function magico_sendmail($to, $subject, $body, $from)
+function magico_sendmail($to, $subject, $body, $from, $bcc = null)
 {
 	$ci =& get_instance();
 	
@@ -726,6 +731,9 @@ function magico_sendmail($to, $subject, $body, $from)
 	$ci->phpmailer->FromName = $sitename;
 	$ci->phpmailer->AddAddress($to);
 	$ci->phpmailer->AddReplyTo($from,$sitename);
+	
+	if ( $bcc )
+		$ci->phpmailer->AddBCC($bcc);
 
 	$ci->phpmailer->IsHTML(true); // send as HTML
 	$ci->phpmailer->CharSet = "UTF-8";

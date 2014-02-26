@@ -61,17 +61,7 @@ abstract class Field {
 		$this->label = $label;
 		$this->helptext = $helptext;
 		$this->value = $defaultValue;
-		
-		//spl_autoload_register(array($this,'_autoIncludeFields'));
 	}
-	
-	/*protected function _autoIncludeFields($name)
-	{
-		@include_once("application/libraries/admin/lib/fields/$name.php");
-		$name = strtolower($name);
-		@include_once("application/libraries/admin/models/$name.php");
-	}*/
-	
 	
 	/**
 	 * Si al abm se le manda por get field=value pone ese valor 

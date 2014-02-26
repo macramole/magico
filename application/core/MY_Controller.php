@@ -180,6 +180,7 @@ class MY_Controller extends CI_Controller {
 			$fileExtension = substr( $file, strrpos($file, '.') + 1 );
 		
 			header("Content-Type: {$arrMime[$fileExtension]}");
+			
 			readfile($file);
 		}
 		

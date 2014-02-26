@@ -291,44 +291,45 @@ class My_Loader extends CI_Loader
 
 					return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 				}
-
-				// Lets search for the requested library file and load it.
-				$is_duplicate = FALSE;
-				foreach ($this->_ci_library_paths as $path)
-				{
-					$filepath = $path.'libraries/'.$subdir.$class.'.php';
-
-					// Does the file exist?  No?  Bummer...
-					if ( ! file_exists($filepath))
-					{
-						continue;
-					}
-
-					// Safety:  Was the class already loaded by a previous call?
-					if (in_array($filepath, $this->_ci_loaded_files))
-					{
-						// Before we deem this to be a duplicate request, let's see
-						// if a custom object name is being supplied.  If so, we'll
-						// return a new instance of the object
-						if ( ! is_null($object_name))
-						{
-							$CI =& get_instance();
-							if ( ! isset($CI->$object_name))
-							{
-								return $this->_ci_init_class($class, '', $params, $object_name);
-							}
-						}
-
-						$is_duplicate = TRUE;
-						log_message('debug', $class." class already loaded. Second attempt ignored.");
-						return;
-					}
-
-					include_once($filepath);
-					$this->_ci_loaded_files[] = $filepath;
-					return $this->_ci_init_class($class, '', $params, $object_name);
-				}
 			}
+			
+			// Lets search for the requested library file and load it.
+			$is_duplicate = FALSE;
+			foreach ($this->_ci_library_paths as $path)
+			{
+				$filepath = $path.'libraries/'.$subdir.$class.'.php';
+
+				// Does the file exist?  No?  Bummer...
+				if ( ! file_exists($filepath))
+				{
+					continue;
+				}
+
+				// Safety:  Was the class already loaded by a previous call?
+				if (in_array($filepath, $this->_ci_loaded_files))
+				{
+					// Before we deem this to be a duplicate request, let's see
+					// if a custom object name is being supplied.  If so, we'll
+					// return a new instance of the object
+					if ( ! is_null($object_name))
+					{
+						$CI =& get_instance();
+						if ( ! isset($CI->$object_name))
+						{
+							return $this->_ci_init_class($class, '', $params, $object_name);
+						}
+					}
+
+					$is_duplicate = TRUE;
+					log_message('debug', $class." class already loaded. Second attempt ignored.");
+					return;
+				}
+
+				include_once($filepath);
+				$this->_ci_loaded_files[] = $filepath;
+				return $this->_ci_init_class($class, '', $params, $object_name);
+			}
+			
 		} // END FOREACH
 
 		// One last attempt.  Maybe the library is in a subdirectory, but it wasn't specified?

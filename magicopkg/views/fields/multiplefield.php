@@ -7,7 +7,7 @@
 		}
 	
 		if ( count($arrValues) > 0 ) {
-			foreach( $arrValues as $rowNum => $row ) 
+			foreach( $arrValues as $rowNum => $row )
 				include('multiplefield_field.php');
 		}
 	?> 

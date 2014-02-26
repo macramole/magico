@@ -594,7 +594,7 @@ $.fn.magico_draggable = function() {
 };
 
 $.fn.magico_add_drag = function() {
-	$(this).prepend("<img src='magico/images/move_icon_white.gif' class='drag' />");
+	$(this).prepend("<img src='magicopkg/images/move_icon_white.gif' class='drag' />");
 	
 	$(this).hover( function() {
 		$('.drag', $(this)).stop(true).animate({'opacity': '1'});

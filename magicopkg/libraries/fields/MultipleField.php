@@ -104,7 +104,7 @@ class MultipleField extends Field {
 			$field->name = $field->name . '[]';
 		}
 		
-		$ci->load->view('admin/fields/multiplefield_field.php', $data);
+		$ci->load->view('fields/multiplefield_field.php', $data);
 	}
 }
 

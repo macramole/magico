@@ -32,6 +32,27 @@ class FileUpload extends Field {
 	}
 	
 	/**
+	 * Override of setParent method. Checks for common field names ("image" or "images") and automatically call isImage and sets maxFilesAllowed
+	 * 
+	 * @param type $parent
+	 */
+	/*function setParent(&$parent)
+	{
+		parent::setParent($parent);
+		
+		if ( $this->name == 'image' || $this->name == 'imagen' )
+		{
+			$this->isImage();
+			$this->maxFilesAllowed = 1
+		}
+		elseif ( $this->name == 'images' || $this->name == 'imagenes' )
+		{
+			$this->isImage();
+		}
+		
+	}*/
+	
+	/**
 	 * Solo se podrán subir imágenes 
 	 */
 	function isImage()

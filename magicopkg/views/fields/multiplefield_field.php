@@ -8,8 +8,8 @@
 			<th><?php renderLabel($field->label); ?></th>
 			<td id="field_<?= $field->cssId ?>"><?php $field->render(); ?></td>
 		<?php endforeach; ?>
-			<td class="dragMe"><img src="images/magico/move_icon_white.gif" /></td>
-			<td class="delete"><img src="images/magico/delete_16.png" /></td>
+			<td class="dragMe"><img src="<?= site_url('magicopkg/images/move_icon_white.gif') ?>" /></td>
+			<td class="delete"><img src="<?= site_url('magicopkg/images/delete_16.png') ?>" /></td>
 		</tr>
 	</table>
 </li>				

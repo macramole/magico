@@ -109,7 +109,7 @@ class Zebra_Image
      *
      *  Range is 0 - 100
      *
-     *  Default is 90
+     *  Default is 95
      *
      *  @var integer
      */
@@ -202,7 +202,7 @@ class Zebra_Image
 
         $this->error = 0;
 
-        $this->jpeg_quality = 90;
+        $this->jpeg_quality = 95;
 
         $this->png_compression = 9;
 
