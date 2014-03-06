@@ -27,12 +27,6 @@
     <body>
 		<mp:Content />
 		
-		<mp:Adminnav />
-		
-		<?php foreach ( $messages as $message ) : ?>
-		<div class="jGrowlMessage" style="display: none">
-			<?= $message ?>
-		</div>
-		<?php endforeach; ?>		
+		<mp:Magico />
     </body>
 </html>
