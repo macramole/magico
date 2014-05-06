@@ -427,16 +427,15 @@ class MY_Model extends CI_Model {
 
 	public static function cleanURL( $string )
 	{
-		setlocale(LC_CTYPE, 'es_ES');
+		setlocale(LC_ALL, 'en_US.UTF8');
+        
+        $clean = html_entity_decode($string);
+        $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $clean);
+        $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+        $clean = strtolower(trim($clean, '-'));
+        $clean = preg_replace("/[\/_|+ -]+/", '-', $clean);
 
-		$string = html_entity_decode($string);
-		$string = utf8_encode($string);
-		$string = iconv("UTF-8", "us-ascii//TRANSLIT", $string); // TRANSLIT does the whole job
-		$string = strtolower($string);
-		$string = preg_replace('~[^-a-z0-9_ ]+~', '', $string); // keep only letters, numbers, '_', space and separator
-		$string = trim($string);
-		$string = preg_replace ('~[ ]+~', '-', $string);
-		return $string;
+        return $clean;
 	}
 
 	/**

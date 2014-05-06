@@ -41,7 +41,10 @@ function magico_setMainData($id, $model, $language = MAGICO_AUTO)
  * 
  * @param array $arrContent Elementos tipo array( array( 'id' => 20, 'title' => 'hola' ), array( 'id' => 21, 'title' => 'chau' ) ). Super importante que haya id
  * @param string $model Tipo de contenido
- * @param string $selector Selector jQuery Si no se establece selector entonces se crea uno '#MY_Model_id1, #MY_Model_id2, etc' Sirve cuando el contenido es cargado por ajax
+ * @param string $selector Selector jQuery Si no se establece selector entonces se crea uno 
+ *                          '#MY_Model_id1, #MY_Model_id2, etc' 
+ *                          Sirve cuando el contenido es cargado por ajax.
+ *                          Se puede mandar con o sin $
  * @param string $listType MAGICO_DRAGGABLE o MAGICO_SORTABLE para que genere automaticamente el script para arrastrar. MAGICO_CUSTOM para hacerlo manualmente.
  * @param string $listParams JSON adicional para el draggable o sortable CON corchetes
  * @param string $addDrag Si le agrega automaticamente el drag
@@ -69,6 +72,10 @@ function magico_setData($arrContent, $model, $selector = null, $listType = MAGIC
 	if ( !$selector )
 		$selector = substr($autoSelector,0, strlen($autoSelector) - 1 );
 	
+    if ( substr($selector,0,1) != '$' ) {
+        $selector = "$('$selector')";
+    }
+    
 	if ( $language == MAGICO_AUTO )
 	{
 		if ( $ci->lang->has_language() )
@@ -85,10 +92,10 @@ function magico_setData($arrContent, $model, $selector = null, $listType = MAGIC
 	switch ($listType)
 	{
 		case MAGICO_DRAGGABLE:
-			$magicoJs = "$('$selector').parent().magico_draggable($listParams);";
+			$magicoJs = "$selector.parent().magico_draggable($listParams);";
 			break;
 		case MAGICO_SORTABLE:
-			$magicoJs = "$('$selector').parent().magico_sortable($listParams);";
+			$magicoJs = "$selector.parent().magico_sortable($listParams);";
 			break;
 		default:
 			$magicoJs = '';
@@ -96,12 +103,12 @@ function magico_setData($arrContent, $model, $selector = null, $listType = MAGIC
 	}
 	
 	if ( $addDrag )
-		$magicoJs .= " $('$selector').magico_add_drag();";
+		$magicoJs .= " $selector.magico_add_drag();";
 	
 	echo '<script type="text/javascript">';
 		echo '$( function() {';
 			echo $magicoJs;
-			echo 'magico_setData(' . magico_arrPHP2JS($arrIds) . ", '$model', '$selector', $language);";
+			echo 'magico_setData(' . magico_arrPHP2JS($arrIds) . ", '$model', $selector, $language);";
 		echo '});';
 	echo '</script>';
 }
@@ -359,7 +366,7 @@ function magico_getUrlCleanData($url = null, $language = null)
 		else
 			$url = uri_string();
 	}
-		
+    
 	if ( !$language )
 		$row = $ci->db->get_where('clean_urls',array('url' => $url))->row_array();
 	else

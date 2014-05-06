@@ -134,7 +134,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 				{
 					$('body').data('needReload', false);
 					$(this).val('<?= lang('magico_abm_closing') ?>');
-					window.location.reload(true);
+					window.location.reload();//true);
 				}
 				else
 					$.prettyPhoto.close();

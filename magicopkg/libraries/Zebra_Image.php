@@ -202,7 +202,7 @@ class Zebra_Image
 
         $this->error = 0;
 
-        $this->jpeg_quality = 95;
+        $this->jpeg_quality = defined('ZEBRA_JPEG_QUALITY') ? ZEBRA_JPEG_QUALITY : 95;
 
         $this->png_compression = 9;
 

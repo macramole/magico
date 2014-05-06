@@ -42,7 +42,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 								if ( pp_images.length == 1 )
 								{
 									$.prettyPhoto.close();
-									window.location.reload(true);
+									window.location.reload();//true);
 								}
 								else
 								{
@@ -64,7 +64,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 											if ( pp_images.length == 1 )
 											{
 												$.prettyPhoto.close();
-												window.location.reload(true);
+												window.location.reload();//true);
 											}
 											else
 											{
@@ -119,7 +119,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 										$('#abmForm').data('submittedBy').val('<?= lang('magico_abm_redirecting'); ?>');
 										
 										$.ajax('abm/addMessage/<?= lang('magico_abm_edit_successful'); ?>', 
-											{ success: function() { window.location.reload(true); } });
+											{ success: function() { window.location.reload(); } });
 									break;
 									
 									case 'createContent' :
