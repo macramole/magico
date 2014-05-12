@@ -255,9 +255,9 @@
     border-radius: 5px;
     box-shadow: 1px 1px 1px 0 #85B719;
     
-	padding-bottom: 30px;
+	/*padding-bottom: 30px;*/
     padding-right: 30px;
-    padding-top: 30px;
+    /*padding-top: 30px;*/
 }
 
 #abm .fieldsWrapper > table.fields
@@ -310,9 +310,9 @@
     border-radius: 5px 5px 5px 5px;
     box-shadow: 1px 1px 1px 0 #BF991E;
    
-	padding-bottom: 30px;
+	/*padding-bottom: 30px;*/
     padding-right: 30px;
-    padding-top: 30px;	
+    /*padding-top: 30px;	*/
 }
 
 #abm.list h1
@@ -711,7 +711,7 @@
 	font-size: 13px;
 	margin-left: 10px;
 	padding: 9px 10px 7px;
-	width: 89.4%;
+	width: 89%;
 }
 
 #abm td.field_ForeignModel .wrapper.sortable li

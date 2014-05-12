@@ -550,7 +550,7 @@ function magico_getImagesToRow(&$row, $table, $width, $height = null, $useDefaul
  * @param type $flag 
  * @param type $addFull
  */
-function magico_getImageToRow(&$row, $table, $width, $height = null, $flag = 0, $addFull = false)
+function magico_getImageToRow(&$row, $table, $width, $height = null, $flag = 0, $nombreField = 'imagen', $addFull = false, $useDefault = true)
 {
 	$file = magico_getFile($table, $row['id'], $flag);
 	$imagen = null;
@@ -562,12 +562,12 @@ function magico_getImageToRow(&$row, $table, $width, $height = null, $flag = 0, 
 		if ( $addFull )
 			$row['imagenFull'] = UPLOAD_DIR . $file['filename'];
 	}
-	else
+	elseif ( $useDefault )
 	{
 		$imagen = magico_thumb('', $width, $height); //default image
 	}
 	
-	$row['imagen'] = $imagen;
+	$row[$nombreField] = $imagen;
 }
 
 /**

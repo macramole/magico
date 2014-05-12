@@ -7,7 +7,7 @@
 			<?php endif; ?>
 			<div class="info">
 				<?php if ($sortable && !$noEdit) : ?>
-				<img class="dragMe" src="images/magico/move_icon_white.gif" />
+				<img class="dragMe" src="<?= MAGICO_PATH_IMG ?>move_icon_white.gif" />
 				<?php endif; ?>
 				<div class="title"><?= $row[$titleField] ?> <?= $row['translate'] ? '<strong>' . lang('magico_abm_not_translated') . '</strong>' : ''?></div>
 				<div class="actions">

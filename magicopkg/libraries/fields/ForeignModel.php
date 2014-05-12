@@ -58,9 +58,9 @@ class ForeignModel extends Field {
 	 * @param type $helptext
 	 * @param type $defaultValue 
 	 */
-	function __construct($model_name, $label = null, $helptext = '', $defaultValue = '')
+	function __construct($model_name, $label = null, $helptext = '')
 	{
-		parent::__construct($label, $helptext, $defaultValue);
+		parent::__construct($label, $helptext);
 		$this->model = $model_name;
 		$this->isForeignKey = $model_name::$table; //Automaticamente sabe que es foreign key		
 	}

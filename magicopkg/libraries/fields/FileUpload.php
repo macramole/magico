@@ -55,9 +55,10 @@ class FileUpload extends Field {
 	/**
 	 * Solo se podrán subir imágenes 
 	 */
-	function isImage()
+	function isImage( $maxFilesAllowed = 0 )
 	{
 		$this->allowedExtensions = array('jpg', 'jpeg', 'png', 'gif');
+        $this->maxFilesAllowed = $maxFilesAllowed;
 	}
 	
 	function render()
