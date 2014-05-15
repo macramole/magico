@@ -495,7 +495,8 @@ function magico_prepareEditable(id, content_type, field, selector, config, langu
 	
 	$item.attr('contenteditable', true);
 	
-	CKEDITOR.inline($item.attr('id'), config);
+	
+    CKEDITOR.inline($item.attr('id'), config);
 }
 
 /**

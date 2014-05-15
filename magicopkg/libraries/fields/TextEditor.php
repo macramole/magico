@@ -38,6 +38,13 @@ class TextEditor extends Field {
 	 * @var boolean 
 	 */
 	public $allowLists = true;
+    
+    /**
+	 * Allow inline images
+	 * 
+	 * @var boolean 
+	 */
+	public $allowImages = false;
 	
 	function __construct($label = null, $helptext = '', $defaultValue = '') {
 		parent::__construct($label, $helptext, $defaultValue);
@@ -65,7 +72,7 @@ class TextEditor extends Field {
 	{
 		//allowedContent, para que no pueda pegar tags que no esten permitidos
 		$config['allowedContent'] = 'i u p strong br;';
-		$toolbar1 = $toolbar2 = $toolbar3 = array();
+		$toolbar1 = $toolbar2 = $toolbar3 = $toolbar4 = array();
 		
 		// Extra tags
 		if ( count($this->extraTags) )
@@ -108,12 +115,20 @@ class TextEditor extends Field {
 			$config['allowedContent'] .= "ul ol li;";
 			$toolbar3 = array('NumberedList', 'BulletedList');
 		}
+        
+		if ( $this->allowImages )
+		{
+			$config['allowedContent'] .= "img[alt,src,width,height]";
+			$config['filebrowserImageUploadUrl'] = 'abm/ajaxFieldCallBack/' . get_class($this->getParent()) . '/' . $this->name ;
+            $toolbar4 = array( 'Image' );
+		}
 		
 		$config['toolbar'] = array(
 			  $toolbar1,
 			  $toolbar2,
 			  $toolbar3,
-			  array( 'PasteFromWord', 'PasteText' )
+			  array( 'PasteFromWord', 'PasteText' ),
+              $toolbar4
 		);
 		
 		$ci =& get_instance();
@@ -124,10 +139,32 @@ class TextEditor extends Field {
 			$config['language'] = 'es';
 		else
 			$config['language'] = 'en';
-		
+		        
 		return $config;
 	}
 	
+    /**
+     * If image is enabled this method will take care of uploading images
+     */
+    public function ajaxCallBack()
+    {
+        $filename = $_FILES['upload']['name'];
+        $ext = substr($filename, stripos($filename, '.') + 1);
+        $filename = substr($filename, 0, stripos($filename, '.'));
+        
+        while (file_exists(UPLOAD_DIR . $filename . '.' . $ext)) {
+            $filename .= rand(10, 99);
+        }
+        
+        $filename = $filename . '.' . $ext;
+        
+        move_uploaded_file($_FILES['upload']['tmp_name'], UPLOAD_DIR . $filename);
+        
+        $funcNum = $_GET['CKEditorFuncNum'];
+        $url = site_url(UPLOAD_DIR . $filename);
+        echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
+    }
+    
 	function render()
 	{
 		$data = array();

@@ -1,6 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<?php $fieldBuscar->render(); ?><?php $fieldCiudad->render(); ?><?php $fieldBarrio->render(); ?><button id="<?= $name ?>_buscar" type="button">Buscar</button>
+<?php $fieldBuscar->render(); ?>
+
+
+<?php if ( $fieldCiudad ) $fieldCiudad->render(); ?><?php if ( $fieldBarrio ) $fieldBarrio->render(); ?>
+
+<button id="<?= $name ?>_buscar" type="button">Buscar</button>
 <input type="hidden" name="<?= $name ?>_latitud" id="<?= $name ?>_latitud" value="<?= $latitud?>" />
 <input type="hidden" name="<?= $name ?>_longitud" id="<?= $name ?>_longitud" value="<?= $longitud ?>" />
 <div id="<?= $name ?>_map" class="map"></div>
@@ -14,11 +19,23 @@ var marker = null;
 		
 function buscarDireccion()
 {
-	var direccion = $('input[name="<?= $fieldBuscar->name ?>"]').val() + ', ' + 
-					$('select[name="<?= $fieldBarrio->name ?>"] option:selected').text() + ', ' + 
-					$('select[name="<?= $fieldCiudad->name ?>"] option:selected').text();
+	var direccion = $('input[name="<?= $fieldBuscar->name ?>"]').val() 
+					
+                    <?php if ( $fieldBarrio ) : ?>
+                    + ', ' + $('select[name="<?= $fieldBarrio->name ?>"] option:selected').text() 
+                    <?php endif; ?>
+					<?php if ( $fieldCiudad ) : ?>
+                    + ', ' + $('select[name="<?= $fieldCiudad->name ?>"] option:selected').text()
+                    <?php endif; ?>
+                    <?php if ( $queryExtra ) : ?>
+                    + ' <?= $queryExtra?> '
+                    <?php endif; ?>
+    ;
 					
 	geoCoder = new google.maps.Geocoder();
+    
+    console.log(direccion);
+    
 	geoResult = geoCoder.geocode({address: direccion}, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			lugar = results[0].geometry.location;
@@ -48,7 +65,7 @@ function buscarDireccion()
 }
 	
 $( function() {	
-	$LAB.script('https://maps.googleapis.com/maps/api/js?sensor=false').wait(function() {
+	//$LAB.script('https://maps.googleapis.com/maps/api/js?sensor=false').wait(function() {
 		
 		$('#<?= $name ?>_buscar').click( function() {
 		
@@ -95,6 +112,6 @@ $( function() {
 				});
 			}
 		});
-	});
+	//});
 });
 </script>
