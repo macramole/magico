@@ -620,7 +620,8 @@ class MY_Model extends CI_Model {
 				$this->ci->db->delete('clean_urls', array('node_id' => $this->id, 'table' => static::$table));
 		}
 	}
-
+    
+    /*
 	function getRow()
 	{
 		if (!$this->id)
@@ -629,11 +630,11 @@ class MY_Model extends CI_Model {
 		{
 			return $this->ci->db->get_where(static::$table, array( 'id' => $this->id ))->row_array();
 		}
-	}
+	}*/
 
 	/**
-		* Tendrá los datos por post, debe devolver un array ( 'field_name' => 'error' ) o null si no hay error
-		*/
+    * Tendrá los datos por post, debe devolver un array ( 'field_name' => 'error' ) o null si no hay error
+    */
 	function validate()
 	{
 		if ($this->ci->form_validation->run() == true)
@@ -645,14 +646,131 @@ class MY_Model extends CI_Model {
 	}
 
 	/**
-		* Devuelve si el contenido está siendo traducido
-		* 
-		* @return type 
-		*/
+    * Devuelve si el contenido está siendo traducido
+    * 
+    * @return type 
+    */
 	function isTranslating()
 	{
 		return $this->translating;
 	}
+    
+    
+    /** STATIC METHODS (work in progress) **/
+    
+    /**
+     * Get an array by id
+     * 
+     * @param int $id
+     * @param int $image_width
+     * @param int $image_height
+     * @param mixed $language
+     * @return array
+     */
+    static function getRowArray($id, $image_width = null, $image_height = null, $language = MAGICO_AUTO) {
+        $ci =& get_instance();
+        $table = static::$table;
+	
+        if ( $language == MAGICO_AUTO ) {
+            if ( $ci->lang->has_language() )
+                $language = $ci->lang->lang();
+            else
+                $language = null;
+        }
+
+        $imagen = $image_width ? "( SELECT filename FROM files f WHERE f.node_id = t.id AND f.table = '$table' ORDER BY f.weight ASC, f.id DESC LIMIT 1 ) AS imagen," : null;
+
+        $sql = "
+            SELECT
+                t.*,
+                $imagen
+                cu.url
+            FROM
+                $table t
+            LEFT JOIN
+                clean_urls cu ON
+                cu.node_id = t.id AND cu.table = '$table'
+        ";
+
+        $where = " WHERE t.id = '$id'";
+        
+        if ( $language ) {
+            $sql .= " AND cu.language='$language' ";
+            $where .= " AND t.language='$language'";
+        }
+        
+        $sql .= $where;
+        
+        $rowReturn = $ci->db->query($sql)->row_array();
+        
+        if ( $imagen )
+            $rowReturn['imagen'] = magico_thumb ($rowReturn['imagen'], $image_width, $image_height);
+        
+        if ( $rowReturn['url'] )
+            $rowReturn['url'] = site_url($rowReturn['url']);
+
+        return $rowReturn;
+    }
+    
+    static function getListArray($image_width = null, $image_height = null, $where = null, $order_by = null, $limit = null, $language = MAGICO_AUTO)
+    {
+        $ci =& get_instance();
+        $table = static::$table;
+	
+        if ( $language == MAGICO_AUTO )
+        {
+            if ( $ci->lang->has_language() )
+                $language = $ci->lang->lang();
+            else
+                $language = null;
+        }
+
+        $imagen = $image_width ? "( SELECT filename FROM files f WHERE f.node_id = t.id AND f.table = '$table' ORDER BY f.weight ASC, f.id DESC LIMIT 1 ) AS imagen," : null;
+
+        $sql = "
+            SELECT
+                t.*,
+                $imagen
+                cu.url
+            FROM
+                $table t
+            LEFT JOIN
+                clean_urls cu ON
+                cu.node_id = t.id AND cu.table = '$table'
+        ";
+
+        if ( $language )
+        {
+            $sql .= " AND cu.language='$language' ";
+
+            if ( $where )
+                $where .= " AND t.language='$language'";
+            else
+                $where = "t.language='$language'";
+        }
+
+        if ( $where )
+            $sql .= "WHERE $where ";
+
+        if ( $order_by )
+            $sql .= " ORDER BY $order_by ";
+
+        if ( $limit )
+            $sql .= " LIMIT $limit ";
+
+        $arrReturn = $ci->db->query($sql)->result_array();
+
+        foreach ( $arrReturn as &$item )
+        {
+            if ( $imagen )
+                $item['imagen'] = magico_thumb ($item['imagen'], $image_width, $image_height);
+
+            if ( $item['url'] )
+                $item['url'] = site_url($item['url']);
+        }
+
+        return $arrReturn;
+    }
 }
 
 /* End of file */

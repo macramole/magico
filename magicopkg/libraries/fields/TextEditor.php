@@ -118,7 +118,7 @@ class TextEditor extends Field {
         
 		if ( $this->allowImages )
 		{
-			$config['allowedContent'] .= "img[alt,src,width,height]";
+			$config['allowedContent'] .= "img[alt,src]{border-style,border-width,float,height,margin,margin-bottom,margin-left,margin-right,margin-top,width};";
 			$config['filebrowserImageUploadUrl'] = 'abm/ajaxFieldCallBack/' . get_class($this->getParent()) . '/' . $this->name ;
             $toolbar4 = array( 'Image' );
 		}

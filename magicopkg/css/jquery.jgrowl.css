@@ -6,6 +6,7 @@ div.jGrowl {
 }
 
 /** Special IE6 Style Positioning **/
+/*
 div.ie6 {
 	position: 			absolute;
 }
@@ -36,7 +37,7 @@ div.ie6.center {
 	left: 				expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
 	top: 				expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
 	width: 				100%;
-}
+}*/
 
 /** Normal Style Positions **/
 div.jGrowl {

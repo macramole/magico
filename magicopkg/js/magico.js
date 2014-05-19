@@ -450,6 +450,9 @@ function magico_prepareEditable(id, content_type, field, selector, config, langu
 {
 	$item = $(selector);
 	
+    if ( $item.data('magico_edicion_instantanea') )
+        return;
+    
 	$item.data('type', content_type);
 	$item.data('id', id);
 	$item.data('field', field);
@@ -476,13 +479,13 @@ function magico_prepareEditable(id, content_type, field, selector, config, langu
 	
 	$item.focus(function() {
 		$(this).data('magico_edicion_instantanea').stop(true).css('opacity', 0).hide();
-		$('body').trigger('magico-editable-activated', [ $(this) ]);
+		$(window).trigger('magico-editable-activated', [ $(this) ]);
 	});
 
 	$item.blur(function() {
 		$this = $(this);
 		magico_saveFieldData( $this );
-		$('body').trigger('magico-editable-saved', [ $this ]);
+		$(window).trigger('magico-editable-saved', [ $this ]);
 	});
 	
 	if ( language != null )
@@ -511,7 +514,7 @@ function magico_setFieldEditable(id, content_type, field, selector, config, lang
 function magico_setFieldsEditables(arrIds, content_type, field, selector, config, language)
 {	
 	$(selector).each(function(index, item) {
-		magico_prepareEditable(arrIds[index], content_type, field, item, config, language);
+        magico_prepareEditable(arrIds[index], content_type, field, item, config, language);
 	});
 }
 

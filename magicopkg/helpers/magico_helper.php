@@ -126,7 +126,7 @@ function magico_setEditable($id, $model, $field, $selector, $language = MAGICO_A
 {
 	$ci =& get_instance();
 	
-	if ( !$ci->adminuser->isLogged() )
+	if ( !$ci->adminuser->isLogged() || !$ci->adminuser->tienePermiso($model) )
 		return '';
 	
 	if ( $language == MAGICO_AUTO )
@@ -189,7 +189,7 @@ function magico_setEditables($arrContent, $model, $field, $selector, $language =
 {
 	$ci =& get_instance();
 	
-	if ( !$ci->adminuser->isLogged() )
+	if ( !$ci->adminuser->isLogged() || !$ci->adminuser->tienePermiso($model) )
 		return '';
 	
 	$arrIds = array();
@@ -315,6 +315,8 @@ function magico_getByUrlClean($url = null, $language = null, $withTable = false)
 		else
 			$arrReturn = $ci->db->get_where($row['table'], array('id' => $row['node_id'], 'language' => $language))->row_array();
 		
+        $arrReturn['url'] = site_url($row['url']);
+        
 		if ( !$withTable )
 			return $arrReturn;
 		else
@@ -501,11 +503,11 @@ function magico_getImagesToArray(&$array, $table, $width, $height = null, $flag 
  * @param type $height
  * @param type $flag 
  */
-function magico_getImageToArray(&$array, $table, $width, $height = null, $flag = 0)
+function magico_getImageToArray(&$array, $table, $width, $height = null, $flag = 0, $nombreField = 'imagen', $addFull = false, $useDefault = true)
 {
 	foreach( $array as &$item )
 	{
-		magico_getImageToRow( $item, $table, $width, $height, $flag );
+		magico_getImageToRow( $item, $table, $width, $height, $flag, $nombreField, $addFull, $useDefault );
 	}
 }
 
