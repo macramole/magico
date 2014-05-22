@@ -667,7 +667,7 @@ class MY_Model extends CI_Model {
      * @param mixed $language
      * @return array
      */
-    static function getRowArray($id, $image_width = null, $image_height = null, $language = MAGICO_AUTO) {
+    static function getRowArray($id, $image_width = null, $image_height = null, $image_flag = 0, $language = MAGICO_AUTO) {
         $ci =& get_instance();
         $table = static::$table;
 	
@@ -678,7 +678,7 @@ class MY_Model extends CI_Model {
                 $language = null;
         }
 
-        $imagen = $image_width ? "( SELECT filename FROM files f WHERE f.node_id = t.id AND f.table = '$table' ORDER BY f.weight ASC, f.id DESC LIMIT 1 ) AS imagen," : null;
+        $imagen = $image_width ? "( SELECT filename FROM files f WHERE f.node_id = t.id AND f.table = '$table' AND f.flag='$image_flag' ORDER BY f.weight ASC, f.id DESC LIMIT 1 ) AS imagen," : null;
 
         $sql = "
             SELECT
@@ -692,7 +692,7 @@ class MY_Model extends CI_Model {
                 cu.node_id = t.id AND cu.table = '$table'
         ";
 
-        $where = " WHERE t.id = '$id'";
+        $where = " WHERE t.id = ?";
         
         if ( $language ) {
             $sql .= " AND cu.language='$language' ";
@@ -701,7 +701,7 @@ class MY_Model extends CI_Model {
         
         $sql .= $where;
         
-        $rowReturn = $ci->db->query($sql)->row_array();
+        $rowReturn = $ci->db->query($sql, array($id))->row_array();
         
         if ( $imagen )
             $rowReturn['imagen'] = magico_thumb ($rowReturn['imagen'], $image_width, $image_height);
@@ -712,7 +712,7 @@ class MY_Model extends CI_Model {
         return $rowReturn;
     }
     
-    static function getListArray($image_width = null, $image_height = null, $where = null, $order_by = null, $limit = null, $language = MAGICO_AUTO)
+    static function getListArray($image_width = null, $image_height = null, $image_flag = 0, $where = null, $order_by = null, $limit = null, $language = MAGICO_AUTO)
     {
         $ci =& get_instance();
         $table = static::$table;
@@ -725,7 +725,7 @@ class MY_Model extends CI_Model {
                 $language = null;
         }
 
-        $imagen = $image_width ? "( SELECT filename FROM files f WHERE f.node_id = t.id AND f.table = '$table' ORDER BY f.weight ASC, f.id DESC LIMIT 1 ) AS imagen," : null;
+        $imagen = $image_width ? "( SELECT filename FROM files f WHERE f.node_id = t.id AND f.table = '$table' AND f.flag='$image_flag' ORDER BY f.weight ASC, f.id DESC LIMIT 1 ) AS imagen," : null;
 
         $sql = "
             SELECT

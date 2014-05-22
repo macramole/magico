@@ -85,8 +85,8 @@ class MY_Controller extends CI_Controller {
 	 * 
 	 * @var type 
 	 */
-	private $og_image;
-	private $og_description;
+	protected $og_image;
+	protected $og_description;
 	
 	public function __construct()
 	{

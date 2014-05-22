@@ -396,20 +396,21 @@ function magico_switchLanguage($language)
  * Calidad de JPG = 90
  * 
  */
-function magico_thumb($file, $width, $height = 0, $method = ZEBRA_IMAGE_CROP_CENTER, $enlarge_smaller_images = true)
+function magico_thumb($file, $width, $height = 0)
 {
 	$ci =& get_instance();
-	
-	if ( !$file )
+    if ( !$file )
 	{
-		global $CFG;
-		$file =  $CFG->item('default_image');
+		if ( $ci->config->item('image_default') )
+            $file = $ci->config->item('image_default');
+        else
+            return null;
 	}
 	
 	$filename = substr( $file, 0, strrpos($file, '.') );
 	$fileExtension = substr( $file, strrpos($file, '.') + 1 );
 	
-	$hash = md5( "$filename.$width.$height.$method" );
+	$hash = md5( "$filename.$width.$height" );
 	$newFile = $hash . '.' . $fileExtension;
 	
 	if ( file_exists(THUMBS_DIR . $newFile) )
@@ -422,9 +423,10 @@ function magico_thumb($file, $width, $height = 0, $method = ZEBRA_IMAGE_CROP_CEN
 		$ci->load->library('Zebra_Image');
 		$ci->zebra_image->source_path = UPLOAD_DIR . $file;
 		$ci->zebra_image->target_path = THUMBS_DIR . $newFile;
-		$ci->zebra_image->enlarge_smaller_images = $enlarge_smaller_images;
+		$ci->zebra_image->enlarge_smaller_images = $ci->config->item('image_enlarge_smaller');
+        $ci->zebra_image->jpeg_quality = $ci->config->item('image_jpeg_quality');
 		
-		if ( $ci->zebra_image->resize($width, $height, $method) )
+		if ( $ci->zebra_image->resize($width, $height, $ci->config->item('image_crop_method')) )
 		{
 			$arrFile = $ci->db->get_where('files', array('filename' => $file))->result_array();
 			
@@ -521,7 +523,7 @@ function magico_getImageToArray(&$array, $table, $width, $height = null, $flag =
  * @param type $height
  * @param type $flag 
  */
-function magico_getImagesToRow(&$row, $table, $width, $height = null, $useDefaultImage = false, $flag = 0)
+function magico_getImagesToRow(&$row, $table, $width, $height = null, $flag = 0)
 {
 	$files = magico_getFiles($table, $row['id'], $flag);
 	$imagenes = array();
@@ -531,14 +533,18 @@ function magico_getImagesToRow(&$row, $table, $width, $height = null, $useDefaul
 		foreach( $files as $imagen )
 		{
 			$imagenes[] = magico_thumb($imagen['filename'], $width, $height);
+			$imagenes_full[] = UPLOAD_DIR . $imagen['filename'];
 		}
 	}
-	elseif ( $useDefaultImage )
+	else
 	{
-		$imagenes[] = magico_thumb('', $width, $height); //default image
+		$thumb = magico_thumb('', $width, $height); //default image
+        if ( $thumb )
+            $imagenes[] = $thumb;
 	}
 	
 	$row['imagenes'] = $imagenes;
+	$row['imagenes_full'] = $imagenes_full;
 }
 
 /**
@@ -552,7 +558,7 @@ function magico_getImagesToRow(&$row, $table, $width, $height = null, $useDefaul
  * @param type $flag 
  * @param type $addFull
  */
-function magico_getImageToRow(&$row, $table, $width, $height = null, $flag = 0, $nombreField = 'imagen', $addFull = false, $useDefault = true)
+function magico_getImageToRow(&$row, $table, $width, $height = null, $flag = 0, $nombreField = 'imagen', $addFull = false)
 {
 	$file = magico_getFile($table, $row['id'], $flag);
 	$imagen = null;
@@ -564,9 +570,9 @@ function magico_getImageToRow(&$row, $table, $width, $height = null, $flag = 0, 
 		if ( $addFull )
 			$row['imagenFull'] = UPLOAD_DIR . $file['filename'];
 	}
-	elseif ( $useDefault )
+	else
 	{
-		$imagen = magico_thumb('', $width, $height); //default image
+       	$imagen = magico_thumb('', $width, $height); //default image
 	}
 	
 	$row[$nombreField] = $imagen;

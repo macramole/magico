@@ -4,24 +4,8 @@
 		function __construct()
 		{
 			$ci =& get_instance();
-			
-			$ci->config->load('config_magico');
-			
-			$ci->load->library('masterpage');
-			$ci->load->database();
-			$ci->load->library('adminuser');
-			$ci->load->library('form_validation');
-			
-			$ci->load->helper('form');
-			$ci->load->helper('url');
-			$ci->load->helper('language');
-			$ci->load->helper('magico');
-			
-			$ci->lang->load('magico', $ci->lang->getAdminLanguage());
-			
-			
-			
-			/*
+            
+            /*
 			 * DEFINES
 			 */
 			define('UPLOAD_DIR','uploads/');
@@ -52,6 +36,24 @@
 			define('MAGICO_PATH_JS', MAGICO_DIR_NAME . '/js');
 			define('MAGICO_PATH_CSS', MAGICO_DIR_NAME . '/css');
 			define('MAGICO_PATH_IMG', MAGICO_DIR_NAME . '/images/');
+            
+            /***************************/
+            
+			
+			$ci->config->load('config_magico');
+			
+			$ci->load->library('masterpage');
+			$ci->load->database();
+			$ci->load->library('adminuser');
+			$ci->load->library('form_validation');
+			
+			$ci->load->helper('form');
+			$ci->load->helper('url');
+			$ci->load->helper('language');
+			$ci->load->helper('magico');
+			
+			$ci->lang->load('magico', $ci->lang->getAdminLanguage());
+			
 		}
 	}
 ?>
