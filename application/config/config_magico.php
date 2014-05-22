@@ -15,12 +15,45 @@ $config['admin_language'] = 'spanish';
 | Mâgico default image
 |--------------------------------------------------------------------------
 |
-| Thumbnail function will return a thumbnail of this image if no image were uploaded
+| magico_thumb will return a thumbnail of this image if no image were uploaded.
+| Set to false is you don't want magico_thumb this functionality
 |
 |
 */
-$config['default_image'] = 'default_image.gif';
+$config['image_default'] = 'default_image.gif';
 
+/*
+|--------------------------------------------------------------------------
+| Mâgico image crop method
+|--------------------------------------------------------------------------
+|
+| How will magico_thumb crop the images
+|
+|
+*/
+$config['image_crop_method'] = ZEBRA_IMAGE_CROP_CENTER;
+
+/*
+|--------------------------------------------------------------------------
+| Mâgico jpeg quality
+|--------------------------------------------------------------------------
+|
+| Quality of resized jpegs
+|
+|
+*/
+$config['image_jpeg_quality'] = 90;
+
+/*
+|--------------------------------------------------------------------------
+| Mâgico enlarge smaller images
+|--------------------------------------------------------------------------
+|
+| Whether magico_thumb will enlarge smaller images
+|
+|
+*/
+$config['image_enlarge_smaller'] = true;
 /*
 |--------------------------------------------------------------------------
 | Mâgico auto clone i18n
