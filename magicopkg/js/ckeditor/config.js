@@ -26,6 +26,8 @@ CKEDITOR.on('dialogDefinition', function(e) {
         tabInfo.remove('browse');
         tabInfo.remove('protocol');
  
+        
+ 
         tabInfo.add({
             type : 'text',
             id : 'urlNew',
@@ -36,7 +38,8 @@ CKEDITOR.on('dialogDefinition', function(e) {
                 {
 					if (typeof(data.url) !== 'undefined')
 					{
-						this.setValue(data.url.protocol + data.url.url);
+						theProtocol = data.url.protocol ? data.url.protocol : '';
+                        this.setValue(theProtocol + data.url.url);
 					}
                 }
             },
@@ -46,11 +49,14 @@ CKEDITOR.on('dialogDefinition', function(e) {
 				
 				if ( data.url.url.match("^(.*http).*" ) )
 				{
-					//data.url.url = data.url.url.substr( data.url.url.indexOf('//') + 2 );
+					data.url.protocol = data.url.url.substr( 0, data.url.url.indexOf('//') + 2 );
+                    data.url.url = data.url.url.substr( data.url.url.indexOf('//') + 2 );
 					data.target = { name: '_blank', type: 'magico' };
-				}
-				
-				data.url.protocol = '';
+				} else {
+                    data.url.protocol = '';
+                }
+                
+                data.type = 'url';
             }
         });
 		

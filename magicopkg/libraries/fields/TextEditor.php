@@ -119,7 +119,7 @@ class TextEditor extends Field {
 		if ( $this->allowImages )
 		{
 			$config['allowedContent'] .= "img[alt,src]{border-style,border-width,float,height,margin,margin-bottom,margin-left,margin-right,margin-top,width};";
-			$config['filebrowserImageUploadUrl'] = 'abm/ajaxFieldCallBack/' . get_class($this->getParent()) . '/' . $this->name ;
+			$config['filebrowserImageUploadUrl'] = site_url('abm/ajaxFieldCallBack/' . get_class($this->getParent()) . '/' . $this->name) ;
             $toolbar4 = array( 'Image' );
 		}
 		
@@ -161,7 +161,7 @@ class TextEditor extends Field {
         move_uploaded_file($_FILES['upload']['tmp_name'], UPLOAD_DIR . $filename);
         
         $funcNum = $_GET['CKEditorFuncNum'];
-        $url = site_url(UPLOAD_DIR . $filename);
+        $url = UPLOAD_DIR . $filename;
         echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
     }
     
