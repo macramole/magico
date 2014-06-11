@@ -731,7 +731,7 @@ function magico_sendmail($to, $subject, $body, $from, $bcc = null)
 	$ci->load->library('phpmailer');
 	$sitename = $ci->config->item('magico_sitename');
 	
-	if ( $_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == 'macramole.no-ip.org' )
+	if ( $_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == 'macramole.no-ip.org' || $_SERVER['HTTP_HOST'] == 'parleboo.com' )
 	{
 		$ci->phpmailer->IsSMTP(); // set mailer to use SMTP
 		$ci->phpmailer->Host = "ssl://mail.parleboo.com"; // specify main and backup server
@@ -743,6 +743,7 @@ function magico_sendmail($to, $subject, $body, $from, $bcc = null)
 	}
 	
 	$ci->phpmailer->From = $from;
+    $ci->phpmailer->Sender = $from;
 	$ci->phpmailer->FromName = $sitename;
 	$ci->phpmailer->AddAddress($to);
 	$ci->phpmailer->AddReplyTo($from,$sitename);

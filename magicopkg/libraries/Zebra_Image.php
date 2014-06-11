@@ -528,7 +528,7 @@ class Zebra_Image
      *                                          If FALSE is returned, check the {@link error} property to see what went
      *                                          wrong
      */
-    function resize($width = 0, $height = 0, $method = ZEBRA_IMAGE_CROP_CENTER, $background_color = '#FFFFFF')
+    function resize($width = 0, $height = 0, $method = ZEBRA_IMAGE_CROP_CENTER, $background_color = -1)
     {
 
         // if image resource was successfully created
