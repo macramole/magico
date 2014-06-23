@@ -46,6 +46,13 @@ class TextEditor extends Field {
 	 */
 	public $allowImages = false;
 	
+	/**
+	 * Allow alignment (left, right, center)
+	 * 
+	 * @var boolean 
+	 */
+	public $allowAlignment = false;
+	
 	function __construct($label = null, $helptext = '', $defaultValue = '') {
 		parent::__construct($label, $helptext, $defaultValue);
 		
@@ -71,7 +78,7 @@ class TextEditor extends Field {
 	public function populateConfig()
 	{
 		//allowedContent, para que no pueda pegar tags que no esten permitidos
-		$config['allowedContent'] = 'i u p strong br;';
+		$config['allowedContent'] = 'i u strong br p;';
 		$toolbar1 = $toolbar2 = $toolbar3 = $toolbar4 = array();
 		
 		// Extra tags
@@ -104,6 +111,15 @@ class TextEditor extends Field {
 		$toolbar1[] = 'Italic';
 		$toolbar1[] = 'Underline';
 		
+		if ( $this->allowAlignment ) {
+			$config['allowedContent'] .= "p{text-align};";
+			$toolbar1[] = '-';
+			$toolbar1[] = 'JustifyLeft';
+			$toolbar1[] = 'JustifyCenter';
+			$toolbar1[] = 'JustifyRight';
+			$toolbar1[] = 'JustifyBlock';
+		}
+		
 		if ( $this->allowLinks )
 		{
 			$config['allowedContent'] .= "a[!href,target];";
@@ -122,6 +138,8 @@ class TextEditor extends Field {
 			$config['filebrowserImageUploadUrl'] = site_url('abm/ajaxFieldCallBack/' . get_class($this->getParent()) . '/' . $this->name) ;
             $toolbar4 = array( 'Image' );
 		}
+		
+		//unset($config['allowedContent']);
 		
 		$config['toolbar'] = array(
 			  $toolbar1,

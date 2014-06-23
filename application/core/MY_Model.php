@@ -655,7 +655,21 @@ class MY_Model extends CI_Model {
 		return $this->translating;
 	}
     
-    
+    /** TABLE CREATION **/
+	
+	function createTable() {
+		$this->ci->load->dbforge();
+		$fields = array();
+		
+		foreach ( $this->fields as $field ) {
+			
+			$fields += $field->databaseFields;
+		}
+		
+		$this->ci->dbforge->add_field($fields);
+		$this->ci->dbforge->create_table( static::$table );
+	}
+	
     /** STATIC METHODS (work in progress) **/
     
     /**

@@ -214,12 +214,16 @@ class Abm extends CI_Controller {
 	{
 		$model = $this->_returnModel($type, $id);
 		
-		if ( !$model::$isForeignKey )
-		{
+		/**
+		 * The following commented code was an idea to automatically delete associated content. 
+		 * It wasn't a good idea, you should override delete function and delete the associated content by yourself :)
+		 */
+		//if ( !$model::$isForeignKey ) 
+		//{
 			$model->delete();
 			echo json_encode( array('need_confirmation' => false ) );
-		}
-		else
+		//}
+		/*else
 		{
 			if ( !$force && !$model::$isSoftForeignKey )
 				echo json_encode( array('need_confirmation' => true ) );
@@ -288,8 +292,14 @@ class Abm extends CI_Controller {
 				$model->delete();
                 echo json_encode( array('need_confirmation' => false ) );
 			}
-		}
+		}*/
 		
+	}
+	
+	public function createModelTable($type) {
+		$model = $this->_returnModel($type);
+		$model->createTable();
+		echo "Successful";
 	}
 	
 	public function addMessage($message)

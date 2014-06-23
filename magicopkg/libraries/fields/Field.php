@@ -10,49 +10,59 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * De esta clase heredan los fields
+ * All fields inherit from here
  */
 abstract class Field {
+	
 	/**
-	 * Name es el nombre en la base
-	 * Label es lo que se muestra el usuario
+	 * Name is usually the name of the field in the database. The setParent() method will set this automatically.
+	 * Label is the name of the field that is shown to the user
 	 */
 	public $name, $label, $value, $helptext, $cssId;
 	
 	/**
-	 * Automáticamente guarda los campos usando htmlentities
+	 * Automatically save the fields using htmlentities
 	 */
 	public $safeHtml = true;
 	
 	/**
-	 * Si aparece en el listado del backend. USO INTERNO
+	 * TRUE if it shows up in the CRUD list. This is not set directly, CORE USE ONLY. Use function setListableFields() from MY_Model
 	 */
 	public $listable = false;
 	
 	/**
-	 * Si este campo necesita guardarse individualmente. Se necesitará que la clase implemente el método save($table, $id), el método delete($table, $id) y el setFieldValue($table, $id, $row);
-	 * Por el momento los campos de este tipo no son traducibles
+	 * TRUE if this field knows how to save itself to the database.
+	 * The field class must implement methods save($table, $id), delete($table, $id) and setFieldValue($table, $id, $row);
+	 * Right now this type of fields are not interationalized
 	 */
 	public $autoSave = false;
 	
 	/*
-	 * JS adicional para no tener que crear todo un control nuevo para cada caso
+	 * Additional javascript you may want to add
 	 */
 	public $additionalJs;
 	
 	/**
-	 * Si un campo disabled no se mostrará en el abm y no se procesará para guardar sus datos
+	 * If the field is disabled it will not show up in the CRUD form and won't be processed for saving it's data
 	 * 
 	 * @var boolean
 	 */
 	public $disabled = false;
 	
 	/**
-	 * Por ahora se utiliza cuando se construye el clean URL, si es foreign se fija el url clean en la tabla especifiacda
+	 * It is used when constructing the clean URL. If its foreign it will check the URL clean of the specified table
 	 * 
-	 * @var mixed False o el nombre de la tabla
+	 * @var mixed False or table name
 	 */
 	public $isForeignKey = false;
+	
+	/**
+	 * This field should be filled when overriding method postSetParent()
+	 * The format must be dbforge compatible (check codeigniter's docs)
+	 * 
+	 * @var array
+	 */
+	public $databaseFields = array();
 	
 	private $_parent;
 	
@@ -73,8 +83,8 @@ abstract class Field {
 	}
 	
 	/**
-	 * Esta función es llamada desde el model para establecer su parent y su nombre.
-	 * También chequea si al abm se le pasó un parámetro para forzar su valor
+	 * This function is called from the Model to establish its parent and name.
+	 * It also call to an overrideable function postSetParent()
 	 * 
 	 * @param type $parent 
 	 */
@@ -103,6 +113,13 @@ abstract class Field {
 		
 		$this->cssId = $this->name;
 		
+		$this->postSetParent();
+	}
+	
+	/**
+	 * This function must be overrided in order to set $databaseFields value
+	 */
+	function postSetParent() {
 		$this->checkForcedValue();
 	}
 	
@@ -122,7 +139,8 @@ abstract class Field {
 	}
 	
 	/**
-	 *  Muestra el control. Al final de la funcion overrideada debe tener parent::render(); TODO: Algunos fields no tienen esta función al final !!
+	 *  Shows the field. It can be overrided for custom functionality. 
+	 *  If it is overrided, it has to have parent::render() AT THE END
 	 */
 	function render($data)
 	{
@@ -142,7 +160,7 @@ abstract class Field {
 	}
 	
 	/**
-	 * Algunos fields saben validarse a si mismos 
+	 * Some fields knows how to validate themselves
 	 */
 	function validate($rules = 'required')
 	{

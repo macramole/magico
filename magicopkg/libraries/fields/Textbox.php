@@ -28,6 +28,17 @@ class Textbox extends Field {
 	public $prefix = '';
 	public $postfix = '';
 	
+	function postSetParent() {
+		parent::postSetParent();
+		
+		$this->databaseFields = array (
+			$this->name => array(
+				'type' => 'VARCHAR',
+				'constraint' => $this->maxLength
+			)
+		);
+	}
+	
 	function render()
 	{
 		$data = array();
