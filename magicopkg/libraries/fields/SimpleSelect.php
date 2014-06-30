@@ -38,9 +38,9 @@ class SimpleSelect extends Field {
 	 */
 	protected function checkForcedValue()
 	{
-		if ( $_GET[$this->name] )
+		if ( isset($_GET[$this->name]) )
 			$this->value = $_GET[$this->name];
-		else if ( $_GET[sprintf(self::FORCED_ID, $this->name)] && $_GET[sprintf(self::FORCED_TITLE, $this->name)] )
+		else if ( isset( $_GET[sprintf(self::FORCED_ID, $this->name)] ) && isset( $_GET[sprintf(self::FORCED_TITLE, $this->name)] ) )
 		{
 			return array('id' => $_GET[sprintf(self::FORCED_ID, $this->name)], 'title' => $_GET[sprintf(self::FORCED_TITLE, $this->name)]);
 		}

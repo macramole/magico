@@ -278,7 +278,7 @@ class MY_Controller extends CI_Controller {
 	{
 		if ( AdminUser::isLogged() )
         {
-            $messages = $_SESSION['messages'] ? $_SESSION['messages'] : array();
+            $messages = isset($_SESSION['messages']) ? $_SESSION['messages'] : array();
             $this->masterpage->addContentPage('admin/admin_nav', 'Magico', array('messages' => $messages));
             unset($_SESSION['messages']);
         }

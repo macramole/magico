@@ -305,7 +305,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 			</ul>
 		<?php endif; ?>
 	</h1>
-	<?= form_open( site_url( ( $contentLanguage ? $contentLanguage . '/' : '' ) . 'abm/update/' . get_class($model) . ( $model->getOperation() == MY_Model::OPERATION_EDIT ? "/{$model->id}" : '' )), 
+	<?= form_open( site_url( ( isset($contentLanguage) ? $contentLanguage . '/' : '' ) . 'abm/update/' . get_class($model) . ( $model->getOperation() == MY_Model::OPERATION_EDIT ? "/{$model->id}" : '' )), 
 				   array('id' => 'abmForm') )  ?>
 		<div class="fieldsWrapper">
 			<table class="fields">

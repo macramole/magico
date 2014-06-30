@@ -138,7 +138,7 @@ class MY_Model extends CI_Model {
 		{
 			$field->setParent($context);
 
-			if ( $field->fields )
+			if ( isset($field->fields) )
 				$this->setFieldsParent( $field );
 		}
 	}
@@ -153,7 +153,7 @@ class MY_Model extends CI_Model {
 		if ( static::$i18n )
 			$lang = $language ? $language : $this->ci->lang->lang_abm();
 		
-		if ( !$lang )
+		if ( !isset($lang) )
 			$row = $arrContent[0];
 		else
 		{
@@ -249,7 +249,7 @@ class MY_Model extends CI_Model {
 		//checkeo por foreign keys y agrego nombre de tabla a los fields. El foreign key debe tener un field title.
 		foreach ( $arrFields as $key => $field )
 		{
-			if ( $this->fields[$field]->isForeignKey )
+			if ( $field != 'id' && $this->fields[$field]->isForeignKey )
 			{
 				$arrFields[$key] = "{$this->fields[$field]->isForeignKey}.title AS `{$this->fields[$field]->label}`";
 				$fieldContentType = $this->fields[$field]->content_type;

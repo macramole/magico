@@ -33,12 +33,15 @@ class MultipleField extends Field {
 	
 	/****** Campos para auto save ********/
 	function save($table, $id)
-	{
+	{	
 		$ci =& get_instance();
 		$ci->db->delete( $this->name, array('id' . get_class($this->getParent()) => $id) );
 		
 		reset($this->fields);
 		$aField = current($this->fields);
+		
+		
+		
 		
 		if ( count( $_POST[ $aField->name ] ) > 0 )
 		{	
@@ -72,9 +75,16 @@ class MultipleField extends Field {
 	function setFieldValue($table, $id, $row)
 	{
 		$ci =& get_instance();
-		
 		$ci->db->order_by('weight ASC');
-		$this->arrValues = $ci->db->get_where($this->name, array('id' . get_class($this->getParent()) => $id))->result_array();
+		
+		if ( !$this->arrValues )
+			$this->arrValues = $ci->db->get_where($this->name, array('id' . get_class($this->getParent()) => $id))->result_array();
+	}
+	
+	function getValues() {
+		
+		
+		return $this->arrValues;
 	}
 	/*************************************/
 	
@@ -100,9 +110,9 @@ class MultipleField extends Field {
 		$data['fields'] = $this->fields;
 		$data['rowNum'] = $_POST['cantFields'];
 		
-		foreach ( $data['fields'] as $fieldName => $field ) {
+		/*foreach ( $data['fields'] as $fieldName => $field ) {
 			$field->name = $field->name . '[]';
-		}
+		}*/
 		
 		$ci->load->view('fields/multiplefield_field.php', $data);
 	}

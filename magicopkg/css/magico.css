@@ -158,6 +158,7 @@
 	color: #eaeaea;
 	display: block;
 	width: 100%;
+	font-family: Helvetica, Arial;
 }
 
 #adminNavItems li a:hover
@@ -171,7 +172,7 @@
 	letter-spacing: 0px;
 	font-size: 1em;
 	color: #FFCA1E;
-	font-family: Trebuchet MS;
+	font-family: Helvetica, Arial;
 	padding: 0 30px;
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -210,7 +211,7 @@
 {
 	border: medium none;
 	display: block;
-	font-family: "Trebuchet MS";
+	font-family: Helvetica, Arial;
 	font-size: 19px;
 	font-style: normal;
 	font-weight: bold;
@@ -223,6 +224,8 @@
 #abm .fieldsWrapper
 {
 	position: relative;
+	padding: 20px 30px 20px 20px;
+	border-radius: 5px;
 }
 
 #abm .helptext
@@ -252,12 +255,7 @@
 	background: -ms-linear-gradient(top, rgba(234,239,222,1) 0%,rgba(218,237,175,1) 56%); /* IE10+ */
 	background: linear-gradient(top, rgba(234,239,222,1) 0%,rgba(218,237,175,1) 56%); /* W3C */
 	
-    border-radius: 5px;
     box-shadow: 1px 1px 1px 0 #85B719;
-    
-	/*padding-bottom: 30px;*/
-    padding-right: 30px;
-    /*padding-top: 30px;*/
 }
 
 #abm .fieldsWrapper > table.fields
@@ -487,6 +485,7 @@
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
 	box-sizing: border-box;  
+	color: #3C3C3C;
 }
 
 #abm .input-text:focus
@@ -536,7 +535,7 @@
 
 #abm .input-check
 {
-	margin: 10px 0 0;
+	/*margin: 10px 0 0;*/
 }
 
 #abm .buttons
@@ -557,7 +556,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#d6d6d6',GradientType=0 ); /* IE6-9 */
     
 	border: 1px solid #9E9E9E;
-    border-radius: 15px;
+    border-radius: 5px;
     box-shadow: 1px 1px 2px -1px;
     color: #444444;
     cursor: pointer;
@@ -658,13 +657,13 @@
 #abm td.field_MultipleField table td.dragMe
 {
 	cursor: move;
-	padding-top: 9px;
+	/*padding-top: 9px;*/
 }
 
 #abm td.field_MultipleField table td.delete
 {
 	cursor: pointer;
-	padding-top: 9px;
+	/*padding-top: 9px;*/
 	padding-right: 0;
 }
 

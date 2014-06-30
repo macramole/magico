@@ -62,6 +62,7 @@ function magico_setData($arrContent, $model, $selector = null, $listType = MAGIC
 		return '';
 	
 	$arrIds = array();
+	$autoSelector = '';
 	
 	foreach ( $arrContent as $content )
 	{

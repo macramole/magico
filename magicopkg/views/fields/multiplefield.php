@@ -2,9 +2,9 @@
 <ul class="wrapper">
 	<?php 
 		//Cambio aca para que quede como array el post
-		foreach ( $fields as $fieldName => $field ) {
-			$field->name = $field->name . '[]';
-		}
+		//foreach ( $fields as $fieldName => $field ) {
+			//$field->name = $field->name . '[]';
+		//}
 	
 		if ( count($arrValues) > 0 ) {
 			foreach( $arrValues as $rowNum => $row )

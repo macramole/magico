@@ -150,7 +150,10 @@ class Abm extends CI_Controller {
 			if ($model::$i18n && !$this->lang->has_language())
 				redirect( $this->lang->default_lang() . '/' . uri_string () );
 			else
-				$this->load->view( 'admin/abm_view', array('model' => $model, 'forceLanguage' => $_GET['forceLanguage']) );
+				$this->load->view( 'admin/abm_view', array(
+					'model' => $model, 
+					'forceLanguage' => 
+					isset($_GET['forceLanguage']) ? $_GET['forceLanguage'] : null ));
 		}
 		else
 		{

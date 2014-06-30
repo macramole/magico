@@ -78,7 +78,7 @@ abstract class Field {
 	 */
 	protected function checkForcedValue()
 	{
-		if ( $_GET[$this->name] )
+		if ( isset($_GET[$this->name]) )
 			$this->value = $_GET[$this->name];
 	}
 	
