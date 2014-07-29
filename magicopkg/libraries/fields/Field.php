@@ -22,11 +22,20 @@ abstract class Field {
 	
 	/**
 	 * Automatically save the fields using htmlentities
+	 * @var boolean 
 	 */
 	public $safeHtml = true;
 	
 	/**
+	 * Some fields can also have fields
+	 * 
+	 * @var array 
+	 */
+	public $fields = array();
+	
+	/**
 	 * TRUE if it shows up in the CRUD list. This is not set directly, CORE USE ONLY. Use function setListableFields() from MY_Model
+	 * @var type 
 	 */
 	public $listable = false;
 	
@@ -34,11 +43,13 @@ abstract class Field {
 	 * TRUE if this field knows how to save itself to the database.
 	 * The field class must implement methods save($table, $id), delete($table, $id) and setFieldValue($table, $id, $row);
 	 * Right now this type of fields are not interationalized
+	 * @var type 
 	 */
 	public $autoSave = false;
 	
 	/*
 	 * Additional javascript you may want to add
+	 * @var type 
 	 */
 	public $additionalJs;
 	
@@ -63,6 +74,13 @@ abstract class Field {
 	 * @var array
 	 */
 	public $databaseFields = array();
+	
+	/**
+	 * If the field has a table associated (beside the one from its Model) it should set it here when overriding method postSetParent()
+	 * 
+	 * @var string
+	 */
+	public $table = null;
 	
 	private $_parent;
 	
@@ -116,11 +134,17 @@ abstract class Field {
 		$this->postSetParent();
 	}
 	
+	function postSetParent() {
+		$this->checkForcedValue();
+	}
+	
 	/**
 	 * This function must be overrided in order to set $databaseFields value
 	 */
-	function postSetParent() {
-		$this->checkForcedValue();
+	function setDatabaseFields() {
+		foreach( $this->fields as $field ) {
+			$field->setDatabaseFields();
+		}
 	}
 	
 	function getParent()

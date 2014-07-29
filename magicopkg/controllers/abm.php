@@ -217,86 +217,12 @@ class Abm extends CI_Controller {
 	{
 		$model = $this->_returnModel($type, $id);
 		
-		/**
-		 * The following commented code was an idea to automatically delete associated content. 
-		 * It wasn't a good idea, you should override delete function and delete the associated content by yourself :)
-		 */
-		//if ( !$model::$isForeignKey ) 
-		//{
+		if ( !$model::$needsDeleteConfirmation || $force )  {
 			$model->delete();
 			echo json_encode( array('need_confirmation' => false ) );
-		//}
-		/*else
-		{
-			if ( !$force && !$model::$isSoftForeignKey )
-				echo json_encode( array('need_confirmation' => true ) );
-			else
-			{
-				if ( $model::$foreignKeyType == MY_Model::FOREIGNKEY_TYPE_ONE_TO_MANY )
-                {
-					if ( !$model::$isSoftForeignKey )
-					{
-						foreach( $model::$isForeignKey as $strMY_Model )
-						{
-							if ( !is_array($model::$isSoftForeignKey) || array_search($strMY_Model, $model::$isSoftForeignKey) === false )
-							{
-								$arrContenido = $this->db->get_where($strMY_Model::$table, array( 'id' . get_class($model) => $id ))->result_array();
-
-								foreach( $arrContenido as $rowContenido )
-								{
-									$oContenido = $this->_returnModel( $strMY_Model, $rowContenido['id'] );
-									$oContenido->delete();
-								}
-							}
-							else // es soft entonces sólo le ponemos 0
-							{
-								$this->db->update($strMY_Model::$table, array( 'id' . get_class($model) => 0 ), array( 'id' . get_class($model) => $id ) );
-							}
-						}
-					}	
-                }
-                else //many to many
-                {
-					$idMY_Model = 'id' . get_class($model);
-					
-					foreach( $model::$isForeignKey as $table )
-                    {
-                        $this->db->delete($table, array( $idMY_Model => $id ));
-                    }
-					
-					foreach( $model::$isForeignKey as $strMY_Model => $tableManyToMany )
-					{
-						//Si no es soft borra la relación si no hay mas
-						if ( !is_array($model::$isSoftForeignKey) || array_search($strMY_Model, $model::$isSoftForeignKey) === false )
-						{
-							$tableMY_Model = $strMY_Model::$table;
-							$idStrMY_Model = 'id' . $strMY_Model;
-
-							$sql = "
-								SELECT DISTINCT
-									$tableMY_Model.id AS id
-								FROM
-									$tableMY_Model 
-								WHERE
-									( SELECT COUNT(*) FROM $tableManyToMany WHERE $tableManyToMany.$idStrMY_Model = $tableMY_Model.id ) = 0
-							";
-
-							$arrIdsToDelete = $this->db->query($sql)->result_array();
-
-							foreach( $arrIdsToDelete as $toDelete )
-							{
-								$oContenido = $this->_returnModel( $strMY_Model, $toDelete['id'] );
-								$oContenido->delete();
-							}
-						}
-					}
-                }
-				
-				$model->delete();
-                echo json_encode( array('need_confirmation' => false ) );
-			}
-		}*/
-		
+		} else {
+			echo json_encode( array('need_confirmation' => $model::$needsDeleteConfirmation ) );
+		}
 	}
 	
 	public function createModelTable($type) {

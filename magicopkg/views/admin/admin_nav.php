@@ -32,9 +32,9 @@ $magico_has_config = $CFG->item('magico_has_config');
 			<ul class="add">
 				<li class="title"><?= lang('magico_nav_new') ?></li>
 				<?php foreach ( $magico_nav as $model_name => $item ) : ?>
-					<?php if ( !$item['noAdd'] && $this->adminuser->tienePermiso($model_name) ) : ?>
+					<?php if ( !isset($item['noAdd']) && $this->adminuser->tienePermiso($model_name) ) : ?>
 						<li class="item">
-							<a href="<?= site_url('abm/create/' . $model_name) ?>" title=""><?= $item['title'] ? $item['title'] : $model_name ?></a>
+							<a href="<?= site_url('abm/create/' . $model_name) ?>" title=""><?= isset($item['title']) ? $item['title'] : $model_name ?></a>
 						</li>
 					<?php endif; ?>
 				<?php endforeach; ?>
@@ -67,7 +67,7 @@ $magico_has_config = $CFG->item('magico_has_config');
 				<?php foreach ( $magico_nav as $model_name => $item ) : ?>
 					<?php if ( $this->adminuser->tienePermiso($model_name) ) : ?>
 					<li class="item">
-						<a href="<?= site_url('abm/listContent/' . $model_name) ?>" title=""><?= $item['title'] ? $item['title'] : $model_name ?></a>
+						<a href="<?= site_url('abm/listContent/' . $model_name) ?>" title=""><?= isset($item['title']) ? $item['title'] : $model_name ?></a>
 					</li>
 					<?php endif; ?>
 				<?php endforeach; ?>

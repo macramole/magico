@@ -17,6 +17,27 @@ class SimpleSelect extends Field {
 	const FORCED_TITLE = '%s_forced_title';
 	const FORCED_ID = '%s_forced_id';
 	
+	function setDatabaseFields() {
+		parent::setDatabaseFields();
+		
+		$enum = '';
+		
+		foreach ( $this->arrValues as $value ) {
+			$enum .= "'$value[value]',";
+		}
+		
+		if ( strlen($enum) > 0 ) {
+			$enum = substr( $enum, 0, strlen($enum) - 1 );
+		}
+		
+		$this->databaseFields = array (
+			$this->name => array(
+				'type' => 'ENUM',
+				'constraint' => $enum
+			)
+		);
+	}
+	
 	function render()
 	{
 		$data = array();
@@ -34,7 +55,9 @@ class SimpleSelect extends Field {
 	
 	/**
 	 * Override.
-	 * Por ahora lo usa el ForeignMY_Model para forzar un elemento que aun no existe
+	 * It is used by ForeignModel to force an element that is not created yet.
+	 * 
+	 * @return mixed
 	 */
 	protected function checkForcedValue()
 	{
@@ -49,10 +72,19 @@ class SimpleSelect extends Field {
 	}
 	
 	/**
-	 * Se le puede pasar como parámentro un array de arrays ej: array( array('id' => 1, 'value' => 'hola'), array('id' => 2, 'value' => 'chau') );
-	 * El 'value' también puede ser 'title' de este 
+	 * Three flavors of array are permitted:
 	 * 
-	 * o bien un array tipo array( 'id' => 'key', 'id' => 'key' );
+	 * array( array('id' => 1, 'value' => 'hola'), array('id' => 2, 'value' => 'chau') );
+	 * 
+	 * or
+	 * 
+	 * array( 'id' => 'value', 'id' => 'value' ); Note that the id is string not int.
+	 * 
+	 * or if using an enum field in the database
+	 * 
+	 * array('value','value');
+	 * 
+	 * @param array $arrValues
 	 */
 	function setValues($arrValues)
 	{
@@ -60,17 +92,20 @@ class SimpleSelect extends Field {
 		{
 			if ( is_array(current($arrValues)) )
 			{
-				$this->arrValues = $arrValues; // supongo array( array('id' => 1, 'value' => 'hola'), array('id' => 2, 'value' => 'chau') );
+				$this->arrValues = $arrValues; // guessing array is array( array('id' => 1, 'value' => 'hola'), array('id' => 2, 'value' => 'chau') );
 			}
 			else
 			{
-				// supongo array( 'id' => 'key', 'id' => 'key' );
+				// guessing array is array( 'id' => 'key', 'id' => 'key' );
 				
 				$this->arrValues = array();
 				
-				foreach ( $arrValues as $key => $value )
-				{
-					$this->arrValues[] = array( 'id' => $key, 'value' => $value );
+				foreach ( $arrValues as $key => $value ) {
+					if ( !is_int($key) ) {
+						$this->arrValues[] = array( 'id' => $key, 'value' => $value );
+					} else {
+						$this->arrValues[] = array( 'id' => $value, 'value' => $value );
+					}
 				}
 			}	
 		}
@@ -78,9 +113,14 @@ class SimpleSelect extends Field {
 			$this->arrValues = array();
 	}
 	
+	/**
+	 * This field knows how to validate itself
+	 * 
+	 * @param type $rules
+	 */
 	public function validate($rules = 'required')
 	{	
-		if ( $_POST[$this->name] <= 0 )
+		if ( $rules == 'required' && $_POST[$this->name] <= 0 )
 		{
 			$ci =& get_instance();
 			$ci->form_validation->set_error( lang('required'), $this->name );

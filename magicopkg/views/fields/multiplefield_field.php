@@ -3,7 +3,7 @@
 	<table>
 		<tr>
 		<?php foreach ( $fields as $fieldName => $field ) : ?>
-			<?php $field->value = $row[$fieldName];//? $row[$fieldName] : $field->value ; ?>
+			<?php $field->value = isset($row) && isset($row[$fieldName]) ? $row[$fieldName] : $field->value ; ?>
 			<?php $field->cssId = "{$fieldName}_{$rowNum}"; ?>
 			<?php $tmpFieldName = $field->name ?>
 			<?php $field->name = $tmpFieldName . "[$rowNum]" ?>

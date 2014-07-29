@@ -6,7 +6,7 @@
  */
 class MasterController extends MY_Controller {
 	
-	protected $_pageTitle = 'New website';
+	protected $_pageTitle = 'fooProject';
 	
 	public function show($additionalData = array())
 	{

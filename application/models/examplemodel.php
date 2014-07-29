@@ -1,12 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Ejemplo extends MY_Model {
+class ExampleModel extends MY_Model {
 	
 	/*** Datos básicos ***/
-	public static $name = "Ejemplo";
-	public static $table = "ejemplo";
+	public static $name = "ExampleModel";
+	public static $table = "exampleModel";
 	public static $returnURL = '/';
-	public static $hayPaginaIndividual = false;
+	public static $hasPage = false;
 	
 	function __construct($id = null)
 	{

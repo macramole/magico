@@ -19,118 +19,164 @@ class MY_Model extends CI_Model {
 	const FOREIGNKEY_TYPE_ONE_TO_MANY = 1;
 	const FOREIGNKEY_TYPE_MANY_TO_MANY = 2;
 
-	//Objeto de codeigniter
+	/**
+	 * CodeIgniter object
+	 * @var type 
+	 */
 	protected $ci;
-	//Array de objetos que extienden de field. Se establece en la clase hija
-	public $fields = array();
-	/**
-		* Si es foreignKey un array con los content fields que dependen de él, al eliminar el contenido, eliminará todo lo asociado. 
-		* Tambien es importante si se usa el field ForeignContentType
-		* 
-		* Caso FOREIGNKEY_TYPE_ONE_TO_MANY El campo foreign debe llamarse id<nombre_de_contentType>
-		* El formato es array( 'nombreContentType', 'nombreContentType2', etc )
-		* 
-		* Ejemplo: Artistas y Obras, el artista debería tener este campo como array('Obra'). Al borrar el artista se borrar sus obras asociadas
-		* 
-		* Caso FOREIGNKEY_TYPE_MANY_TO_MANY El campo foreign debe llamarse id<nombre_de_contentType>
-		* El formato es array( 'nombreContentType' => 'nombreTablaManyToMany', 'nombreContentType2' => 'nombreTablaManyToMany2', etc )
-		* Si el contenido quedó sin relaciones se eliminará
-		* 
-		* Ejemplo: Artistas y Obras pero donde las obras puede estar hechas por muchos artistas. Supongamos que tenemos las tablas
-		* 'artistas' 'obras' y 'artistas_obras'. Al borrar, se borrá el registro del artista de artistas_obras
-		* 
-		* TODO: De momento todos los content_types son de un tipo o de otro, se debería poder definir por cada uno el FOREIGNKEY_TYPE
-		*/
-	public static $isForeignKey = false;
-	public static $foreignKeyType = self::FOREIGNKEY_TYPE_ONE_TO_MANY;
-
-	/**
-		* Hay veces que el content type es foreign key pero que el otro contenido puede existir sin este.
-		* Mâgico no pedirá confirmación en estos casos
-		* 
-		* Caso FOREIGNKEY_TYPE_ONE_TO_MANY
-		* En vez de eliminar el contenido asociado se pondrá un 0 en el campo id<nombre_de_contentType>
-		* 
-		* Caso FOREIGNKEY_TYPE_MANY_TO_MANY
-		* Si el contenido ha quedado sin relaciones no se eliminará
-		* 
-		* 
-		* 
-		* @var array formato es array( 'nombreContentType', 'nombreContentType2', etc ) (los que son soft)
-		*/
-	public static $isSoftForeignKey = false;
-
-	//Esta es la tabla a la que se refiere este content type (si es más de una se deberá overridear el método save)
-	public static $table;
-	//Este es el nombre que se mostrará para este tipo de contenido
-	public static $name;
-	//Donde volverá cuando se agregue ej: document/{id}/{title} (sin barra ni al comienzo ni al final)
-	public static $returnURL = '';
-	/**
-		* Si este contenido está en distintos idiomas. 
-		* Si lo está, un array con los campos que no cambian entre idioma o TRUE si ningún campo se mantiene (las imágenes siempre se mantienen)
-		* La tabla deberá tener un campo "language" VARCHAR 2 PK
-		*/
-	public static $i18n = false;
-	//Si hay, el listado mostrará una acción extra para ver la página de ese contenido
-	public static $hayPaginaIndividual = true;
-
-	/**
-		* Al crear un contenido en un idioma se clona el mismo a los demás. El usuario puede mas tarde traducir los campos
-		* Si en el config el parámetro magico_auto_clone_i18n es true entonces sobreescribe este seteo (osea es siempre true)
-		* 
-		* @var boolean
-		*/
-	public static $autoCloneI18N = false;
-
-	//Si está editando
-	public $id = null;
-
-	//Cuantos items por página cuando se lista el contenido desde el backend /TODO
-	public $itemsPorPaginaList = 10;
-	//Para establecer un mensaje de borrado especial para este content
-	public $mensajeBorrado = null;
 	
-	//Si el contenido no esta disponible en el idioma pero existe el mismo contenido en otro idioma (uso interno)
+	/**
+	 * Associated table in the database. Note that some models can be associated with more than one table using
+	 * fields with $autoSave = true and have overrided corresponding methods. See Field.php for more information
+	 * 
+	 * IT IS MANDATORY TO FILL THIS VARIABLE
+	 * 
+	 * @var string 
+	 */
+	public static $table;
+	
+	/**
+	 * This is the name that will appear to the enduser
+	 * 
+	 * IT IS MANDATORY TO FILL THIS VARIABLE
+	 * 
+	 * @var string
+	 */
+	public static $name;
+	
+	//Donde volverá cuando se agregue ej: document/{id}/{title} (sin barra ni al comienzo ni al final)
+	/**
+	 * Where is magico redirecting the user after a successfull add or edit content.
+	 * You can use curly braces with placeholders to use fields values. This is pretty neat, use it like:
+	 * 
+	 * contents/{title}
+	 * 
+	 * A clear url will be created with the title of the content. You can also use foreign models here,
+	 * just make sure it has the field "title", for example this model has a TextField named title and a 
+	 * DatabaseSelect named idCategory you can use:
+	 * 
+	 * contents/{idCategory}/{title}
+	 * 
+	 * @var string
+	 */
+	public static $returnURL = '';
+	
+	//Si hay, el listado mostrará una acción extra para ver la página de ese contenido
+	/**
+	 * Set this to true if there is a page in the site that shows this model to users.
+	 * It will create a fancy cleanURL and add an icon in the CRUD list to go directly to there
+	 * 
+	 * @var boolean 
+	 */
+	public static $hasPage = true;
+	
+	/**
+	 * Is this content in different languages ?
+	 * If it is an array with the fields that DOES NOT change between languages, like images, or true if no field is kept
+	 * Some autoSaving fields don't support this.. yet.
+	 * Make sure the table has a field "language" VARCHAR 2 PK
+	 * 
+	 * @var mixed
+	*/
+	public static $i18n = false;
+	
+	/**
+	 * Set this to a string if this type of content needs double delete confirmation since it also deletes associated content.
+	 * For example, if this is a category and content of this category will be deleted you should set it to something like
+	 * "All associated content will be deleted, proceed ?"
+	 * 
+	 * @var mixed (false or string)
+	 */
+	public static $needsDeleteConfirmation = false;
+
+	
+	/**
+	 * If set to true, and this is i18n, the content will be cloned to the other languages. Later the user can translate the
+	 * fields for each other language.
+	 * It's also possible to set magico_auto_clone_i18n variable inside config_magico.php to true to override this value.
+	 *
+	 * @var boolean
+	 */
+	public static $autoCloneI18N = false;
+	
+	/**
+	 * Array of Fields. Set this in child class like $this->fields['column_in_database'] = new WhateverField();
+	 * 
+	 * This is the whole point of using Mâgico
+	 * 
+	 * @var array
+	 */
+	public $fields = array();
+
+	/**
+	 * The id of the current selected row. This is set internally, don't mess with this.
+	 * 
+	 * @var type 
+	 */
+	public $id = null;
+	
+	/**
+	 * If the content is not available in the current language but the same content exists in other language. (internal use)
+	 * 
+	 * @var type 
+	 */
 	protected $translating = false;
 
-	function __construct($id = null, $language = null)
-	{
+	function __construct($id = null, $language = null) {
 		$this->ci =& get_instance();
 
 		$this->setFieldsParent();
+		$this->setFieldsDatabaseFields();
 
-		if ( $id )
-		{
+		if ( $id ) {
 			$this->loadId($id, $language);			
 		}
 
 		spl_autoload_register(array($this,'_autoIncludeFields'));
 	}
 
-	private function _autoIncludeFields($name)
-	{
+	private function _autoIncludeFields($name) {
 		@include_once(MAGICO_PATH_LIB . "fields/$name.php");
 		$name = strtolower($name);
 		@include_once("application/models/$name.php");
 	}
 	
-	function loadId($id, $language = null )
-	{
-		if ( $id )
-		{
+	/**
+	 * Loads a content of this type
+	 * 
+	 * @param int $id
+	 * @param string $language
+	 */
+	public function loadId($id, $language = null ) {
+		if ( $id ) {
 			$this->id = $id;
 			$this->setFieldsValues($language);
 		}
 	}
-
 	/**
-		* A veces es necesario saber el padre del field, asi que lo establezclo automaticamente aqui
-		* 
-		* Es recursiva para darle el parent a los fields de los fields si es que hay
-		*/
-	protected function setFieldsParent( &$context = null)
+	 * OVERRIDE THIS FUNCTION IN ORDER TO VALIDATE YOUR MODELS IN CRUD FORM
+	 * 
+	 * Field values will be in $_POST. Should return an array ( 'field_name' => 'error' ) or null if there is no error.
+	 * 
+	 * @return null
+	 */
+	function validate()
 	{
+		if ($this->ci->form_validation->run() == true)
+			return null;
+		else
+		{
+			return $this->ci->form_validation->get_error_array();
+		}
+	}
+	
+	/**
+	 * Sets the parents of the fields.
+	 * Is recursive since some fields also has it's fields.
+	 * 
+	 * @param type $context
+	 */
+	protected function setFieldsParent( &$context = null) {
 		if ( $context == null )
 			$context =& $this;
 
@@ -138,13 +184,28 @@ class MY_Model extends CI_Model {
 		{
 			$field->setParent($context);
 
-			if ( isset($field->fields) )
+			if ( count($field->fields) )
 				$this->setFieldsParent( $field );
 		}
 	}
+	
+	/**
+	 * Call all fields to set its databaseFields (for CLI use)
+	 */
+	protected function setFieldsDatabaseFields() {
+		foreach ( $this->fields as $field ) {
+			$field->setDatabaseFields();
+		}
+	}
 
-	function setFieldsValues($language = null)
-	{
+	/**
+	 * Sets the value of the fields getting the data from the database in order to show them later in the CRUD form
+	 * autoSaving Fields must implement a setFieldValue method.
+	 * 
+	 * @param type $language
+	 * @throws Exception
+	 */
+	function setFieldsValues($language = null) {
 		$arrContent = $this->ci->db->get_where(static::$table, array('id' => $this->id))->result_array();
 
 		if ( !count($arrContent) )
@@ -191,10 +252,12 @@ class MY_Model extends CI_Model {
 	}
 
 	/**
-		* Se pasan los nombres de los fields como array y los marca como listables (asi es más rápido).
-		* Si se manda un field que es foreign key el listado mostrara el title de la tabla
-		* Tambien se peude mandar la constante FIELD_LISTABLE_ALL para todos
-		*/
+	 * Array with Fields names in order to mark them as listable. If they are listables they will show up in the CRUD list.
+	 * Use non autoSaving fields or foreignKey fields with title
+	 * It is also possible to send the constant FIELD_LISTABLE_ALL
+	 * 
+	 * @param array $arrFields
+	 */
 	function setListableFields($arrFields)
 	{
 		if (is_array($arrFields) )
@@ -213,9 +276,12 @@ class MY_Model extends CI_Model {
 		}
 	}
 
-	/*
-		* Devuelve los fields que son listables. $onlyNames devuelve sólo el nombre.
-		*/
+	/**
+	 * Return an array of objects of type Field that are listable (internal use)
+	 * 
+	 * @param boolean $onlyNames Only names (strings not objects) will be returned
+	 * @return array
+	 */
 	function getListableFields( $onlyNames = false )
 	{
 		$arrFields = array();
@@ -235,12 +301,12 @@ class MY_Model extends CI_Model {
 	}
 
 	/**
-		* Devuelve array con la lista paginada (o null para sin paginar) /TODO
-		* 
-		* @param array $where
-		* @param int $page
-		* @return array
-		*/
+	 * Array with a list of contents of this model with its listable fields. CRUD list uses this. (internal use)
+	 * 
+	 * @param type $where
+	 * @param type $page not implemented yet
+	 * @return type
+	 */
 	function getList($where = null, $page = null)
 	{
 		$arrFields = $this->getListableFields(true);
@@ -280,14 +346,20 @@ class MY_Model extends CI_Model {
 
 	}
 
-	function getListJSON($page = null)
-	{
+	/**
+	 * Gets a list of contents of this model with its listable fields in json (internal use)
+	 * 
+	 * @param type $page
+	 */
+	function getListJSON($page = null) {
 		echo json_encode($this->getList($page));
 	}
 
 	/**
-		* Devuelve el tipo de operación, create o edit
-		*/
+	 * What type of CRUD operation are we doing ? (internal use)
+	 * 
+	 * @return type
+	 */
 	function getOperation()
 	{
 		if ( !$this->id )
@@ -297,10 +369,10 @@ class MY_Model extends CI_Model {
 	}
 
 	/**
-		* Guarda los datos por POST en la base de datos. Se llama desde el controller ABM
-		* 
-		* @return int El id 
-		*/
+	 * Saves POST data to the database. Controller abm.php uses this.
+	 * 
+	 * @return int id of generated content
+	 */
 	function save()
 	{
 		$saveFields = array();
@@ -400,11 +472,12 @@ class MY_Model extends CI_Model {
 				$field->save(static::$table, $this->id);
 		}
 
-		if ( static::$hayPaginaIndividual )
+		if ( static::$hasPage )
 			$this->saveClean();
 
 		return $this->id;
 	}
+	
 	/**
 	 * Saves just one field. It's now being used by CKEDITOR's "editables". $_POST['data'] should have the data.
 	 * 
@@ -425,6 +498,12 @@ class MY_Model extends CI_Model {
 		$this->ci->db->update(static::$table, array( $field => $data ) );
 	}
 
+	/**
+	 * Transforms the string to a cleanURL compatible one
+	 * 
+	 * @param type $string
+	 * @return type
+	 */
 	public static function cleanURL( $string )
 	{
 		setlocale(LC_ALL, 'en_US.UTF8');
@@ -437,10 +516,11 @@ class MY_Model extends CI_Model {
 
         return $clean;
 	}
-
+	
 	/**
-		* Guarda en clean_urls la url del content_type. Si el content es i18n actualiza todos los del mismo idioma
-		*/
+	 * Saves the generated cleanURL to the clean_urls table in the database.(internal use)
+	 * If the content is i18n it updates all
+	 */
 	function saveClean()
 	{	
 		$arrDelete = array('table' => static::$table, 'node_id' => $this->id);
@@ -474,10 +554,11 @@ class MY_Model extends CI_Model {
 	}
 
 	/**
-		* Guarda en clean_urls la url del content_type. Si ya existe, le agrega un numero. Uso interno. Usar saveClean si es necesario.
-		*  
-		* @param mixed $language null | array of strings | string
-		*/
+	 * Saves the generated cleanURL to the clean_urls table in the database. If the cleanURL exists adds a number.  
+	 * (internal use)
+	 *  
+	 * @param mixed $language null | array of strings | string
+	 */
 	private function saveCleanOne($language = null)
 	{
 		$urlClean = $this->buildReturnURL(false);
@@ -520,9 +601,12 @@ class MY_Model extends CI_Model {
 			$this->ci->db->insert(self::CLEAN_URLS_TABLE, $arrInsert);
 	}
 
-	function getCleanUrl()
-	{
-
+	/**
+	 * Gets the cleanURL of current content
+	 * 
+	 * @return string
+	 */
+	function getCleanUrl() {
 		$arrGet = array('table' => static::$table, 'node_id' => $this->id);
 
 		if ( static::$i18n )
@@ -534,27 +618,31 @@ class MY_Model extends CI_Model {
 			return site_url($row['url']);
 	}
 
+	/**
+	 * Gets the returnURL of current content. If it doesn't $hasPage it builds it.
+	 * @return type
+	 */
 	function getReturnURL()
 	{
-		if (static::$hayPaginaIndividual)
+		if (static::$hasPage)
 			return $this->getCleanUrl();
 		else
 			return $this->buildReturnURL();
 	}
 
 	/**
-		* Devuelve la URL del contenido
-		* 
-		* @param boolean $absolute Si devuelve la url absoluta o relativa
-		* @return String La url 
-		*/
+	 * Builds the return url replacing placeholders
+	 * 
+	 * @param boolean $absolute Do you want the absolute or relative url ?
+	 * @return String La url 
+	 */
 	function buildReturnURL($absolute = true)
 	{
 		$returnUrl = static::$returnURL;
 
 		foreach ( $this->fields as $field )
 		{
-			if ( is_array($_POST[$field->name]) ) //sino tira error el urlencode
+			if ( isset($_POST[$field->name]) && is_array($_POST[$field->name]) ) //sino tira error el urlencode
 				continue;
 
 			/*
@@ -583,8 +671,12 @@ class MY_Model extends CI_Model {
 			return $returnUrl;
 	}
 
-	function delete()
-	{
+	/**
+	 * Deletes the current content
+	 * 
+	 * @return type
+	 */
+	function delete() {
 		if (!$this->id)
 			return;
 		else
@@ -616,64 +708,108 @@ class MY_Model extends CI_Model {
 			}
 
 			//Si tiene clean url elimino la entrada
-			if ( static::$hayPaginaIndividual )
+			if ( static::$hasPage )
 				$this->ci->db->delete('clean_urls', array('node_id' => $this->id, 'table' => static::$table));
 		}
 	}
-    
-    /*
-	function getRow()
-	{
-		if (!$this->id)
-			return;
-		else
-		{
-			return $this->ci->db->get_where(static::$table, array( 'id' => $this->id ))->row_array();
-		}
-	}*/
 
-	/**
-    * Tendrá los datos por post, debe devolver un array ( 'field_name' => 'error' ) o null si no hay error
-    */
-	function validate()
-	{
-		if ($this->ci->form_validation->run() == true)
-			return null;
-		else
-		{
-			return $this->ci->form_validation->get_error_array();
-		}
-	}
-
-	/**
-    * Devuelve si el contenido está siendo traducido
-    * 
-    * @return type 
-    */
-	function isTranslating()
-	{
+	function isTranslating() {
 		return $this->translating;
 	}
     
-    /** TABLE CREATION **/
+    /** CLI TOOLS **/
 	
-	function createTable() {
+	/**
+	 * Create all tables needed for this model to work. Foreign Models tables won't be created. Call modelToDatabase for each.
+	 * 
+	 * This is a recursive function, hence the $context parameter. Don't use this parameter unless you know what you are doing.
+	 * 
+	 * @param boolean $dropFirst Drop the tables first ?
+	 * @param Field $context
+	 */
+	function createTable($dropFirst = true, $context = null) {
 		$this->ci->load->dbforge();
 		$fields = array();
+		$verbose = false;
 		
-		foreach ( $this->fields as $field ) {
-			
-			$fields += $field->databaseFields;
+		if ( is_null($context) ) {
+			$context = $this;
 		}
 		
+		if ( $context == $this && $dropFirst ) {
+			$this->dropTable();
+		}
+		
+		if ( $context == $this ) {
+			foreach ( $context->fields as $field ) {
+				if ( is_null($field->table) ) {
+					$fields += $field->databaseFields;
+				} else {
+					$this->createTable($dropFirst, $field);
+				}
+			}
+		} else {
+			$fields = $context->databaseFields;
+		}
+		
+		$fields += array('id' => array(
+			'type' => 'INT',
+			'unsigned' => 'TRUE',
+			'auto_increment' => 'TRUE'
+		));
+		
 		$this->ci->dbforge->add_field($fields);
-		$this->ci->dbforge->create_table( static::$table );
+		$this->ci->dbforge->add_key('id', true);
+		
+		if ( $context == $this ) {
+			echo "Creating table: '" . static::$table . "'" . PHP_EOL;
+			if ( $verbose ) {
+				print_r($fields);
+			}
+			
+			$this->ci->dbforge->create_table( static::$table );
+		} else {
+			echo "Creating table: '{$context->table}' of " . get_class($context) . " '{$context->name}'" . PHP_EOL;
+			if ( $verbose ) {
+				print_r($fields);
+			}
+			$this->ci->dbforge->create_table( $context->table );
+		}
+	}
+	
+	/**
+	 * Drop all the tables associated with this model. Foreign Models tables won't be dropped. Call dropModelTables for each.
+	 * 
+	 * This is a recursive function, hence the $context parameter. Don't use this parameter unless you know what you are doing.
+	 * 
+	 * @param Field $context
+	 */
+	function dropTable($context = null) {
+		if ( is_null($context) ) {
+			$context = $this;
+		}
+
+		foreach ( $context->fields as $field ) {
+			if ( !is_null($field->table) ) {
+				$this->dropTable($field);
+			}
+		}
+		
+		$this->ci->load->dbforge();
+		
+		if ( $context == $this ) {
+			echo "Dropping table: '" . static::$table . "'" . PHP_EOL;
+			$this->ci->dbforge->drop_table( static::$table );
+		} else {
+			echo "Dropping table: '" . $context->table . "'" . PHP_EOL;
+			$this->ci->dbforge->drop_table( $context->table );	
+		}
 	}
 	
     /** STATIC METHODS (work in progress) **/
     
     /**
-     * Get an array by id
+     * Get a row from the database as an array by id
      * 
      * @param int $id
      * @param int $image_width
@@ -726,6 +862,21 @@ class MY_Model extends CI_Model {
         return $rowReturn;
     }
     
+	/**
+	 * Returns an array with rows from the database. It will have an extra field "url" with it's clean url if exists or null otherwise
+	 * 
+	 * If argument "image_width" and/or "image_height" is provided it will also return a field "imagen" with the url of the image with flag "image_flag"
+	 * with provided dimensions using configured cropping method (see config/magico_config.php)
+	 * 
+	 * @param int $image_width null or required image width
+	 * @param int $image_height null or required image height
+	 * @param int $image_flag file flag
+	 * @param string $where null or where clause (without WHERE keyword). Use "t." to refer to a field of the table, for example: t.id
+	 * @param string $order_by null or order_by clause (without ORDER BY keyword). Use "t." to refer to a field of the table, for example: t.id
+	 * @param string $limit null or limit clause (without LIMIT keyword)
+	 * @param string $language language or MAGICO_AUTO will autodetect current language (or if there is no language)
+	 * @return array
+	 */
     static function getListArray($image_width = null, $image_height = null, $image_flag = 0, $where = null, $order_by = null, $limit = null, $language = MAGICO_AUTO)
     {
         $ci =& get_instance();
@@ -739,7 +890,10 @@ class MY_Model extends CI_Model {
                 $language = null;
         }
 
-        $imagen = $image_width ? "( SELECT filename FROM files f WHERE f.node_id = t.id AND f.table = '$table' AND f.flag='$image_flag' ORDER BY f.weight ASC, f.id DESC LIMIT 1 ) AS imagen," : null;
+        $imagen = null;
+		if ($image_width || $image_height) {
+			$imagen =  "( SELECT filename FROM files f WHERE f.node_id = t.id AND f.table = '$table' AND f.flag='$image_flag' ORDER BY f.weight ASC, f.id DESC LIMIT 1 ) AS imagen,";
+		}
 
         $sql = "
             SELECT

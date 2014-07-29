@@ -5,7 +5,7 @@ class Admin extends MY_Model {
 	/*** Datos básicos ***/
 	public static $name = "Administrador";
 	public static $table = "admins";
-	public static $hayPaginaIndividual = false;
+	public static $hasPage = false;
 	
 	function __construct($id = null)
 	{	

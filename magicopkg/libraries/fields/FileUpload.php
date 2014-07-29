@@ -84,7 +84,7 @@ class FileUpload extends Field {
 	/** Este campo se graba por si solo (autoSave = true) **/
 	function save($table, $id)
 	{
-		if ( $_POST['files'] )
+		if ( isset($_POST['files']) )
 		{
 			foreach ( $_POST['files'] as $key => $fileId )
 			{

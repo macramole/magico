@@ -328,7 +328,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		<?php if ($model->getOperation() == MY_Model::OPERATION_CREATE ) : ?>
 			<input type="button" value="<?= lang('magico_abm_create'); ?>" name="createContent" id="createContent">
 			<input type="button" value="<?= lang('magico_abm_create_another'); ?>" name="addAnother" id="addAnother">
-			<?php if ( $CFG->item('magico_enable_facebook') && $model->hayPaginaIndividual ) : ?>
+			<?php if ( $CFG->item('magico_enable_facebook') && $model::$hasPage ) : ?>
 			<input type="button" value="<?= lang('magico_abm_create_facebook'); ?>" name="createFacebook" id="createFacebook">
 			<?php endif; ?>
 		<?php else : ?>

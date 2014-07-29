@@ -113,7 +113,7 @@ class MY_Controller extends CI_Controller {
 	 */
 	public function magico_login()
 	{
-		$loginResult = $this->adminuser->login($_POST['user'], $_POST['password'], $_POST['remember']);
+		$loginResult = $this->adminuser->login($_POST['user'], $_POST['password'], isset($_POST['remember']) );
 
 		if ( $loginResult == AdminUser::NOT_LOGGED_IN )
 		{

@@ -28,8 +28,8 @@ class Textbox extends Field {
 	public $prefix = '';
 	public $postfix = '';
 	
-	function postSetParent() {
-		parent::postSetParent();
+	function setDatabaseFields() {
+		parent::setDatabaseFields();
 		
 		$this->databaseFields = array (
 			$this->name => array(

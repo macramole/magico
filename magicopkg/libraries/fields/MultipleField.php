@@ -9,19 +9,18 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Luego de crearlo hay que usar el método addField para agregarle campos.
- * El usuario tiene la posiblidad de agregar cuantos rows quiera y todos se guardaran en una tabla (de uno a muchos)
+ * A field that has multiplefields embeded in rows.
+ * Use method addField to add these fields.
+ * The user can add as many rows he wants. They will saved in a table (one to many)
  * 
- * El nombre del campo es el nombre de la tabla
- * El nombre de cada field agregado es el nombre del campo en esta tabla
- * También la tabla debe tener id, id<NombreDelModel> y weight
+ * Name of the field is the name of the table that will be used (must exist!)
+ * Name of each field added via addField is the name of the column in this table
+ * The table must also have id, id<ParentModelName> and weight
  * 
- * Por el momento sólo funcionan algunos tipos básicos.
- *   
+ * For now just basic fields are working
  */
 class MultipleField extends Field {
 	
-	public $fields;
 	public $arrValues;
 	public $safeHtml = false;
 	public $autoSave = true;
@@ -40,10 +39,7 @@ class MultipleField extends Field {
 		reset($this->fields);
 		$aField = current($this->fields);
 		
-		
-		
-		
-		if ( count( $_POST[ $aField->name ] ) > 0 )
+		if ( isset( $_POST[ $aField->name ] ) && count( $_POST[ $aField->name ] ) > 0 )
 		{	
 			$arrRows = array();
 			
@@ -53,7 +49,7 @@ class MultipleField extends Field {
 				
 				foreach ( $this->fields as $fieldName => $field )
 				{	
-					$row[$fieldName] = $_POST[$field->name][$i];
+					$row[$fieldName] = isset($_POST[$field->name][$i]) ? $_POST[$field->name][$i] : null;
 				}
 				
 				$row['weight'] = $i;
@@ -86,6 +82,27 @@ class MultipleField extends Field {
 		
 		return $this->arrValues;
 	}
+	
+	function setDatabaseFields() {
+		parent::setDatabaseFields();
+		
+		$this->table = $this->name;
+		
+		foreach( $this->fields as $field ) {
+			$this->databaseFields += $field->databaseFields;
+		}
+		
+		$this->databaseFields += array(
+			'id' . get_class($this->getParent()) => array(
+				'type' => 'INT',
+				'unsigned' => 'TRUE',
+			),
+			'weight' => array(
+				'type' => 'INT'
+			)
+		);
+	}
+	
 	/*************************************/
 	
 	function render()

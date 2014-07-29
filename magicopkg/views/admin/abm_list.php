@@ -29,7 +29,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		<?php endif; ?>
 	</h1>
 	<input type="text" id="listSearch" />
-	<a href="<?= $contentLanguage ? "$contentLanguage/" : '' ?>abm/listToXLS/<?= get_class($model) ?>" title="Descargar para Excel" class="excel">
+	<a href="<?= isset($contentLanguage) ? "$contentLanguage/" : '' ?>abm/listToXLS/<?= get_class($model) ?>" title="Descargar para Excel" class="excel">
 		<img src="<?= MAGICO_PATH_IMG ?>/filetypes/xls.png" />
 	</a>
 	<a href="#" class="createNew"><?= lang('magico_abm_create_new') ?></a>
@@ -52,7 +52,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 						<?php endif; ?>
 					<?php endforeach; ?>
 					<td class="actions">
-						<?php if ( $model->hayPaginaIndividual ) : ?>
+						<?php if ( $model::$hasPage ) : ?>
 							<a href="<?= magico_urlclean($model->table, $row['id']) ?>" class="go"><img src="<?= MAGICO_PATH_IMG ?>/ir_32.png" title="<?= lang('magico_abm_go') ?> " /></a>
 						<?php endif; ?>
 						<a href="#" rel="<?= $row['id'] ?>" class="edit"><img src="<?= MAGICO_PATH_IMG ?>/edit_32.png" title="<?= lang('magico_abm_edit') ?> " /></a>

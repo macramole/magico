@@ -8,6 +8,12 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Simple checkbox field.
+ * 
+ * Make sure to set a tiny int (1) with default 0 not null
+ * 
+ */
 class Checkbox extends Field {
 	
 	function render()
