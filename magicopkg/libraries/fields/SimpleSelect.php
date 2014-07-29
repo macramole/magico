@@ -23,7 +23,7 @@ class SimpleSelect extends Field {
 		$enum = '';
 		
 		foreach ( $this->arrValues as $value ) {
-			$enum .= "'$value[value]',";
+			$enum .= "'$value[title]',";
 		}
 		
 		if ( strlen($enum) > 0 ) {
@@ -74,15 +74,15 @@ class SimpleSelect extends Field {
 	/**
 	 * Three flavors of array are permitted:
 	 * 
-	 * array( array('id' => 1, 'value' => 'hola'), array('id' => 2, 'value' => 'chau') );
+	 * array( array('id' => 1, 'title' => 'hola'), array('id' => 2, 'title' => 'chau') );
 	 * 
 	 * or
 	 * 
-	 * array( 'id' => 'value', 'id' => 'value' ); Note that the id is string not int.
+	 * array( 'id' => 'title', 'id' => 'title' ); Note that the id is string not int.
 	 * 
 	 * or if using an enum field in the database
 	 * 
-	 * array('value','value');
+	 * array('title','title');
 	 * 
 	 * @param array $arrValues
 	 */
@@ -92,19 +92,19 @@ class SimpleSelect extends Field {
 		{
 			if ( is_array(current($arrValues)) )
 			{
-				$this->arrValues = $arrValues; // guessing array is array( array('id' => 1, 'value' => 'hola'), array('id' => 2, 'value' => 'chau') );
+				$this->arrValues = $arrValues; // guessing array is array( array('id' => 1, 'title' => 'hola'), array('id' => 2, 'title' => 'chau') );
 			}
 			else
 			{
-				// guessing array is array( 'id' => 'key', 'id' => 'key' );
+				// guessing array is array( 'id' => 'title', 'id' => 'title' );
 				
 				$this->arrValues = array();
 				
 				foreach ( $arrValues as $key => $value ) {
 					if ( !is_int($key) ) {
-						$this->arrValues[] = array( 'id' => $key, 'value' => $value );
+						$this->arrValues[] = array( 'id' => $key, 'title' => $value );
 					} else {
-						$this->arrValues[] = array( 'id' => $value, 'value' => $value );
+						$this->arrValues[] = array( 'id' => $value, 'title' => $value );
 					}
 				}
 			}	

@@ -44,6 +44,20 @@ class MY_Model extends CI_Model {
 	 */
 	public static $name;
 	
+	/**
+	 * Should it show up in the navigation/add menu?
+	 * 
+	 * @var string
+	 */
+	public static $showInNavAdd = true;
+	
+	/**
+	 * Should it show up in the navigation/configuration menu?
+	 * 
+	 * @var string
+	 */
+	public static $showInNavConfig = true;
+	
 	//Donde volverá cuando se agregue ej: document/{id}/{title} (sin barra ni al comienzo ni al final)
 	/**
 	 * Where is magico redirecting the user after a successfull add or edit content.
@@ -740,6 +754,12 @@ class MY_Model extends CI_Model {
 			$this->dropTable();
 		}
 		
+		$fields += array('id' => array(
+			'type' => 'INT',
+			'unsigned' => true,
+			'auto_increment' => true
+		));
+		
 		if ( $context == $this ) {
 			foreach ( $context->fields as $field ) {
 				if ( is_null($field->table) ) {
@@ -749,14 +769,8 @@ class MY_Model extends CI_Model {
 				}
 			}
 		} else {
-			$fields = $context->databaseFields;
+			$fields += $context->databaseFields;
 		}
-		
-		$fields += array('id' => array(
-			'type' => 'INT',
-			'unsigned' => 'TRUE',
-			'auto_increment' => 'TRUE'
-		));
 		
 		$this->ci->dbforge->add_field($fields);
 		$this->ci->dbforge->add_key('id', true);

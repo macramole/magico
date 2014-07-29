@@ -1,11 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <ul class="wrapper">
 	<?php 
-		//Cambio aca para que quede como array el post
-		//foreach ( $fields as $fieldName => $field ) {
-			//$field->name = $field->name . '[]';
-		//}
-	
 		if ( count($arrValues) > 0 ) {
 			foreach( $arrValues as $rowNum => $row )
 				include('multiplefield_field.php');
@@ -16,6 +11,7 @@
 <?php if ($helptext) : ?>
 <div class="helptext"><?= $helptext ?></div>
 <?php endif; ?>
+
 <script>
 	$thisField = $('#field_<?= $name ?>');
 	

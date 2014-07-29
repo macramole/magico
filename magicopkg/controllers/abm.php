@@ -38,7 +38,7 @@ class Abm extends CI_Controller {
 	 */
 	private function _returnModel($type, $id = null)
 	{	
-		$this->load->model($type);
+		$this->load->model($type, true);
 		$this->$type->loadId($id);
 		return $this->$type;
 	}
@@ -77,7 +77,8 @@ class Abm extends CI_Controller {
 		if ( !$childField )
 			$model->fields[$field]->ajaxCallBack();
 		else
-			$model->fields[$field]->fields[str_replace ("{$field}_", '', $childField)]->ajaxCallBack();
+			$model->fields[$field]->fields[$childField]->ajaxCallBack();
+			//$model->fields[$field]->fields[str_replace ("{$field}_", '', $childField)]->ajaxCallBack();
 		
 	}
 	

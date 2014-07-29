@@ -90,7 +90,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 				lang = $('#abm ul.languages li.active').attr('rel');
 				lang = lang ? lang + '/' : '';
 				
-				if ( confirm('<?= $model->mensajeBorrado ? $model->mensajeBorrado : lang('magico_abm_delete_confirmation') ?>') )
+				if ( confirm('<?= lang('magico_abm_delete_confirmation') ?>') )
 				{
 					$.ajax({
 						url: lang + 'abm/delete/<?= get_class($model) ?>/' + $(this).attr('rel'),

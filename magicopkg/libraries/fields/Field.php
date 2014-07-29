@@ -115,9 +115,9 @@ abstract class Field {
 			$name = array_search($this, $this->getParent()->fields);
 			
 			
-			if ( $this->getParent() instanceof Field )
+			/*if ( $this->getParent() instanceof Field )
 				$this->name = "{$this->getParent()->name}_$name";
-			else
+			else*/
 				$this->name = $name;
 			
 			if ( $this->label === null )

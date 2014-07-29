@@ -25,6 +25,12 @@ class MultipleField extends Field {
 	public $safeHtml = false;
 	public $autoSave = true;
 	
+	/**
+	 * Adds a field. Be carefull not to use a name of field you've already used in the model.
+	 * 
+	 * @param type $name
+	 * @param type $field
+	 */
 	function addField($name, $field)
 	{
 		$this->fields[$name] = $field;
@@ -88,10 +94,6 @@ class MultipleField extends Field {
 		
 		$this->table = $this->name;
 		
-		foreach( $this->fields as $field ) {
-			$this->databaseFields += $field->databaseFields;
-		}
-		
 		$this->databaseFields += array(
 			'id' . get_class($this->getParent()) => array(
 				'type' => 'INT',
@@ -101,6 +103,10 @@ class MultipleField extends Field {
 				'type' => 'INT'
 			)
 		);
+		
+		foreach( $this->fields as $field ) {
+			$this->databaseFields += $field->databaseFields;
+		}
 	}
 	
 	/*************************************/

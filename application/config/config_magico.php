@@ -92,24 +92,6 @@ $config['magico_sitename'] = "newWebsite";
 
 /*
 |--------------------------------------------------------------------------
-| Mâgico nav items
-|--------------------------------------------------------------------------
-|
-| Array of items for Mâgico's nav. Each contentType is an array that may have properties:
-|
-| title: The content type title (if this property is not present the key will be used instead)
-| noAdd: This content type doesn't appear in the add menu.
-|
-| (added by Pârleboo)
-|
-*/
-
-$config['magico_nav'] = array(
-	'Ejemplo' => array()
-);
-
-/*
-|--------------------------------------------------------------------------
 | Mâgico has config
 |--------------------------------------------------------------------------
 |
@@ -119,6 +101,15 @@ $config['magico_nav'] = array(
 */
 $config['magico_has_config'] = false;
 
+/*
+|--------------------------------------------------------------------------
+| Mâgico custom list
+|--------------------------------------------------------------------------
+|
+| This should be documented :(
+|
+|
+*/
 $config['magico_customList'] = array();
 /*
 $config['magico_customList'][] = array(

@@ -52,8 +52,40 @@
 			$ci->load->helper('language');
 			$ci->load->helper('magico');
 			
-			$ci->lang->load('magico', $ci->lang->getAdminLanguage());
+			$ci->lang->load('magico', $ci->lang->getAdminLanguage());	
+		}
+		
+		static function getAllModels() {
+			$arrFiles = scandir(APPPATH . '/models');
+			$arrModels = array();
 			
+			foreach( $arrFiles as $file ) {
+				$phpPos = strpos($file, '.php');
+				
+				if ( $phpPos !== false ) {
+					$arrModels[] = ucfirst( substr( $file, 0, $phpPos ) );
+				}
+			}
+			
+			return $arrModels;
+		}
+		
+		static function getNavItems() {
+			$ci =& get_instance();
+			$arrModels = self::getAllModels();
+			$arrNavItems = array();
+			
+			foreach( $arrModels as $model ) {
+				$ci->load->model($model);
+				
+				$arrNavItems[$model] = array(
+					'name' => $model::$name,
+					'showInNavAdd' => $model::$showInNavAdd,
+					'showInNavConfig' => $model::$showInNavConfig
+				);
+			}
+			
+			return $arrNavItems;
 		}
 	}
 ?>

@@ -17,10 +17,10 @@ class Admin extends MY_Model {
 		
 		/*** Extras ***/	
 		global $CFG;
-		$magico_nav = $CFG->item('magico_nav');
+		$magico_nav = Magico::getNavItems();
 		
 		foreach ( $magico_nav as $key => $item )
-			$arrPermisos[$key] = $item['title'] ? $item['title'] : $key;
+			$arrPermisos[$key] = $item['name'];
 		
 		$this->fields['permisos']->setValues($arrPermisos);
 		//$this->fields['permisos']->defaultChecked = true;

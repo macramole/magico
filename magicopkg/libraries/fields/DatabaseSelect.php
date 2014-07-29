@@ -8,13 +8,13 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once('application/libraries/admin/fields/SimpleSelect.php');
+//include_once('application/libraries/admin/fields/SimpleSelect.php');
 
 class DatabaseSelect extends SimpleSelect{
 	
 	const POST_PLACEHOLDER = '?'; //Si se actualiza dinamicamente (ej: addNew = true) si le puede poner este holder al valor del $where y se llena mandandole _POST[where] al ajaxCallBack
 	
-	public $model = null; //Content asociado (UNA INSTANCIA, no el nombre)
+	public $model = null; //Content asociado en string
 	public $addNew = true; //Opcion para agregado rápido. Se le puede establecer un string para agregar datos GET al new
 	public $where = null; //Opcion para mandar un where en vez de toda la tabla 
 	public $isDynamic = false; //Opcion para llenar este select mas tarde mediante ajax.
@@ -22,7 +22,7 @@ class DatabaseSelect extends SimpleSelect{
 	/**
 	 * Constructor
 	 * 
-	 * @param MY_Model $model Tiene que ser un objeto
+	 * @param string $model 
 	 * @param array $where un array con una where clause si no se quiere mostrar toda la tabla
 	 * @param boolean $isDynamic Opcion para llenar este select mas tarde mediante ajax
 	 * @param type $label
@@ -45,10 +45,9 @@ class DatabaseSelect extends SimpleSelect{
 	function render()
 	{
 		$ci =& get_instance();
-		$MY_Model = get_class($this->model);
 		$data = array();
 		
-		if ( !$ci->adminuser->tienePermiso(get_class($this->model)) )
+		if ( !$ci->adminuser->tienePermiso($this->model) )
 			$this->addNew = false;
 		
 		$data['name'] = $this->name;
@@ -58,7 +57,7 @@ class DatabaseSelect extends SimpleSelect{
 		$data['arrValues'] = $this->arrValues;
 		$data['isDynamic'] = $this->isDynamic;
 		$data['addDefaultOption'] = $this->addDefaultOption;
-		$data['model'] = $MY_Model;
+		$data['model'] = $this->model;
 		$data['forcedValue'] = $this->checkForcedValue();
 		$data['language'] = $ci->lang->has_multiple_languages() ? $ci->uri->segment(1) : '';
 		
@@ -80,9 +79,12 @@ class DatabaseSelect extends SimpleSelect{
 		$ci->load->view('fields/databaseselect.php', $data);
 	}
 	
-	function getDbValues()
-	{	
-		$this->setValues($this->model->getList($this->where));
+	function getDbValues() {	
+		$ci =& get_instance();
+		$model = $this->model;
+		$ci->load->model($model);
+		
+		$this->setValues( $model::getListArray(null,null,null, $this->where) );
 	}
 	
 	function ajaxCallBack()
@@ -99,6 +101,16 @@ class DatabaseSelect extends SimpleSelect{
 		}
 		
 		echo json_encode( $this->arrValues );
+	}
+	
+	function setDatabaseFields() {
+		parent::setDatabaseFields();
+		
+		$this->databaseFields = array (
+			$this->name => array(
+				'type' => 'INT'
+			)
+		);
 	}
 }
 

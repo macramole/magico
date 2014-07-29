@@ -6,7 +6,7 @@
 	<?php endif; ?>
 	
 	<?php foreach ($arrValues as $option) : ?>
-	<option value="<?=$option['id']?>" <?= $option['id'] == $value ? 'selected' : ''?>><?=$option['value'] ? $option['value'] : $option['title']?></option>
+	<option value="<?=$option['id']?>" <?= $option['id'] == $value ? 'selected' : ''?>><?= $option['title'] ?></option>
 	<?php endforeach; ?>
 </select>
 <?php else : ?>

@@ -19,12 +19,12 @@ class Clitools extends CI_Controller {
 	}
 	
 	function modelToDatabase($model) {
-		$this->load->model($model);
+		$this->load->model($model, true);
 		$this->$model->createTable();
 	}
 	
 	function dropModelTables($model) {
-		$this->load->model($model);
+		$this->load->model($model, true);
 		$this->$model->dropTable();
 	}
 	
