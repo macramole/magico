@@ -242,7 +242,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 								if ( inputError.is('input:visible') )
 									inputError.animate({'box-shadow' : '0 0 3px 2px #FF3838'});
 
-								$('<div></div>').addClass('error').text(value).css('top', tdError.position().top + 4).hide().appendTo(tdError).fadeIn();
+								$('<div></div>').addClass('error').text(value).css('top', tdError.position().top + 2).hide().appendTo(tdError).fadeIn();
 								//alert(index + ': ' + value);
 
 								if ( inputError.is('input:visible') )

@@ -191,6 +191,8 @@ class ForeignModel extends Field {
 		$this->getDbValues($id);
 	}
 	
+	
+	
 	function ajaxCallBack()
 	{
 		$ci =& get_instance();

@@ -8,7 +8,17 @@
 | Language for admin pages. Available languages are under magico/language/
 |
 */
-$config['admin_language'] = 'spanish';
+$config['admin_language'] = 'english';
+
+/*
+|--------------------------------------------------------------------------
+| Admin Logo
+|--------------------------------------------------------------------------
+|
+| Logo for the login overlay.
+|
+*/
+$config['admin_logo'] = MAGICO_PATH_IMG . '/logo_parleboo.png';
 
 /*
 |--------------------------------------------------------------------------

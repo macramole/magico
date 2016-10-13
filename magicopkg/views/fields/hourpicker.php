@@ -3,7 +3,7 @@
 	function normalizeHora(val)
 	{
 		if ( val == '' || isNaN(val) )
-			return '00';
+			return '';
 		
 		val = parseInt(val);
 		
@@ -19,7 +19,7 @@
 	function normalizeMinutos(val)
 	{
 		if ( val == '' || isNaN(val) )
-			return '00';
+			return '';
 		
 		val = parseInt(val);
 		
@@ -37,7 +37,11 @@
 			$('#<?=$cssId?>Horas').val( normalizeHora( $('#<?=$cssId?>Horas').val() ) );
 			$('#<?=$cssId?>Minutos').val( normalizeMinutos( $('#<?=$cssId?>Minutos').val() ) );
 			
-			$('#<?=$cssId?>Alt').val( $('#<?=$cssId?>Horas').val() + ':' + $('#<?=$cssId?>Minutos').val() );
+			
+			if ( $('#<?=$cssId?>Horas').val() && $('#<?=$cssId?>Minutos').val() )
+				$('#<?=$cssId?>Alt').val( $('#<?=$cssId?>Horas').val() + ':' + $('#<?=$cssId?>Minutos').val() );
+			else
+				$('#<?=$cssId?>Alt').val('');
 		});
 		
 		$('#<?=$cssId?>Horas').keyup( function() {

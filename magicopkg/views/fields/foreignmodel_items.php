@@ -1,18 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <?php if ( count($arrValues) ) : ?>
 	<?php foreach ( $arrValues as $row ) : ?>
-		<li rel="<?= $row['id'] ?>" class="<?= $row['translate'] ? 'translate' : 'sortable' ?>">
+		<li rel="<?= $row['id'] ?>" class="<?= isset($row['translate']) ? 'translate' : 'sortable' ?>">
 			<?php if ( $withImage ) : ?>
 			<img class="imagen" src="<?= $row['imagen'] ?>" />
 			<?php endif; ?>
+			
 			<div class="info">
 				<?php if ($sortable && !$noEdit) : ?>
 				<img class="dragMe" src="<?= MAGICO_PATH_IMG ?>move_icon_white.gif" />
 				<?php endif; ?>
-				<div class="title"><?= $row[$titleField] ?> <?= $row['translate'] ? '<strong>' . lang('magico_abm_not_translated') . '</strong>' : ''?></div>
+				<div class="title"><?= $row[$titleField] ?> <?= isset($row['translate']) ? '<strong>' . lang('magico_abm_not_translated') . '</strong>' : ''?></div>
 				<div class="actions">
 					<?php if ( !$noEdit ) : ?>
-						<?php if ( !$row['translate'] ) : ?>
+						<?php if ( !isset($row['translate']) ) : ?>
 						<img class="edit" src="<?= MAGICO_PATH_IMG ?>edit_23.png" title="<?= lang('magico_abm_edit') ?>" />
 						<img class="delete" src="<?= MAGICO_PATH_IMG ?>delete_23.png" title="<?= lang('magico_abm_delete') ?>" />
 						<?php else : ?>

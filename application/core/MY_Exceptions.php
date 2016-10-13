@@ -16,8 +16,8 @@ class MY_Exceptions extends CI_Exceptions {
 	 */
 	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
 	{
-		$ci =& get_instance();
-		if ( !$ci->input->is_cli_request() ) {
+		//if ( !$ci->input->is_cli_request() ) { COMMENTED BECAUSE IT THROWS ERROR ON INEXISTENT CONTROLLER, using php core function: 
+		if ( php_sapi_name() == PHP_SAPI ) {
 			return parent::show_error($heading, $message, $template, $status_code);
 		} 
 		

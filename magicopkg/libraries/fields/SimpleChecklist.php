@@ -26,7 +26,7 @@ class SimpleChecklist extends SimpleSelect {
         
         $ci->db->delete( $this->relationTable, array( 'id' . get_class($this->getParent()) => $id ) );
         
-        if ( count( $_POST[$this->name] ) )
+        if ( isset($_POST[$this->name]) && count( $_POST[$this->name] ) )
         {
             foreach( $_POST[$this->name] as $value )
             {

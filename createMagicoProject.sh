@@ -7,7 +7,7 @@ echo "Creating project $1..."
 echo "Creating directory"
 mkdir $1
 echo "Copying files"
-cp fooProject/. $1 -R 
+cp CodeIgniter-2.2.6/. $1 -R 
 cp magico/. $1 -R
 rm -r $1/magicopkg
 rm -r $1/application/core
@@ -25,6 +25,7 @@ mysql -u root --password=asdasd $1 < $1/MagicoDefaultDB.sql
 echo "Search and replace"
 sed -i "s/fooProject/$1/g" $1/.htaccess
 sed -i "s/fooProject/$1/g" $1/application/config/database.php
+sed -i "s/fooProject/$1/g" $1/application/config/config.php
 sed -i "s/fooProject/$1/g" $1/application/views/master_page.php
 sed -i "s/fooProject/$1/g" $1/application/controllers/MasterController.php
 echo "Done :)"

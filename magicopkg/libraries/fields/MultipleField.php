@@ -42,23 +42,18 @@ class MultipleField extends Field {
 		$ci =& get_instance();
 		$ci->db->delete( $this->name, array('id' . get_class($this->getParent()) => $id) );
 		
-		reset($this->fields);
-		$aField = current($this->fields);
-		
-		if ( isset( $_POST[ $aField->name ] ) && count( $_POST[ $aField->name ] ) > 0 )
+		if ( isset( $_POST[ $this->name ] ) && count( $_POST[ $this->name ] ) > 0 )
 		{	
 			$arrRows = array();
 			
-			for ($i = 0; $i < count($_POST[$aField->name]); $i++ )
-			{
+			foreach ( $_POST[$this->name] as $weight => $rowNum ) {
 				$row = array();
 				
-				foreach ( $this->fields as $fieldName => $field )
-				{	
-					$row[$fieldName] = isset($_POST[$field->name][$i]) ? $_POST[$field->name][$i] : null;
+				foreach ( $this->fields as $fieldName => $field ) {	
+					$row[$fieldName] = isset($_POST[$field->name][$rowNum]) ? $_POST[$field->name][$rowNum] : null;
 				}
 				
-				$row['weight'] = $i;
+				$row['weight'] = $weight;
 				$row['id' . get_class($this->getParent())] = $id;
 				
 				$arrRows[] = $row;
@@ -130,6 +125,7 @@ class MultipleField extends Field {
 	{
 		$ci =& get_instance();
 		
+		$data['name'] = $this->name;
 		$data['fields'] = $this->fields;
 		$data['rowNum'] = $_POST['cantFields'];
 		

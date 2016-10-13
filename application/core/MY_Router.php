@@ -108,7 +108,7 @@ class My_Router extends CI_Router
 		{
 			return $segments;
 		}
-
+		
 		// Is first segment a controller?
 		$paths = $this->controller_paths();
 		
@@ -144,7 +144,7 @@ class My_Router extends CI_Router
 				return $new_segments;
 			}
 		}
-
+		
 		
 		
 		// If we've gotten this far it means that the URI does not correlate to a valid
@@ -159,7 +159,6 @@ class My_Router extends CI_Router
 			return $x;
 		}
 		
-
 		// Nothing else to do at this point but show a 404
 		show_404($segments[0]);
 	}

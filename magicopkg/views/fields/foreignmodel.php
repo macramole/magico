@@ -5,7 +5,7 @@
 <?php if ( !$noEdit ) : ?>
 <button type="button" class="addAnother"><?= lang('magico_abm_add_another') . ' ' . strtolower($model::$name) ?></button>
 <?php endif; ?>
-<ul class="wrapper <?= $sortable ? 'sortable' : '' ?>">
+<ul class="wrapper <?= $sortable ? 'sortable' : '' ?> <?= !$withImage ? 'noImage' : '' ?>">
 	<?php include('foreignmodel_items.php');	?> 
 </ul>
 

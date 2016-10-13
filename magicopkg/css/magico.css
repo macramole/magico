@@ -538,7 +538,8 @@
 
 #abm .input-check
 {
-	/*margin: 10px 0 0;*/
+	display: block;
+	margin-top: 10px;
 }
 
 #abm .buttons
@@ -714,6 +715,11 @@
 	margin-left: 10px;
 	padding: 9px 10px 7px;
 	width: 88.3%;
+}
+
+#abm td.field_ForeignModel .wrapper.noImage li .info {
+	width: 97%;
+	margin-left: 0;
 }
 
 #abm td.field_ForeignModel .wrapper.sortable li

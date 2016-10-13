@@ -76,8 +76,8 @@ class Admin extends MY_Model {
 		
 		$this->ci->form_validation->set_rules('email','','valid_email|required');
 		
-		if ( !$this->fields['permisos']->disabled )
-			$this->ci->form_validation->set_rules('permisos','','required');
+		/*if ( !$this->fields['permisos']->disabled )
+			$this->ci->form_validation->set_rules('permisos','','required');*/
 		
 		if ( $this->getOperation() == self::OPERATION_CREATE || ( $this->getOperation() == self::OPERATION_EDIT && $_POST['password'] ) )
 		{

@@ -58,7 +58,6 @@ class MY_Model extends CI_Model {
 	 */
 	public static $showInNavConfig = true;
 	
-	//Donde volverá cuando se agregue ej: document/{id}/{title} (sin barra ni al comienzo ni al final)
 	/**
 	 * Where is magico redirecting the user after a successfull add or edit content.
 	 * You can use curly braces with placeholders to use fields values. This is pretty neat, use it like:
@@ -75,7 +74,6 @@ class MY_Model extends CI_Model {
 	 */
 	public static $returnURL = '';
 	
-	//Si hay, el listado mostrará una acción extra para ver la página de ese contenido
 	/**
 	 * Set this to true if there is a page in the site that shows this model to users.
 	 * It will create a fancy cleanURL and add an icon in the CRUD list to go directly to there
@@ -332,7 +330,7 @@ class MY_Model extends CI_Model {
 			if ( $field != 'id' && $this->fields[$field]->isForeignKey )
 			{
 				$arrFields[$key] = "{$this->fields[$field]->isForeignKey}.title AS `{$this->fields[$field]->label}`";
-				$fieldContentType = $this->fields[$field]->content_type;
+				$fieldContentType = $this->fields[$field]->model;
 
 				if ( ( $fieldContentType && !$fieldContentType::$i18n ) || !$fieldContentType )
 					$joinOn = "{$this->fields[$field]->isForeignKey}.id = " . static::$table . ".$field";
@@ -395,10 +393,18 @@ class MY_Model extends CI_Model {
 		{
 			if ( !$field->autoSave && !$field->disabled )
 			{
-				$field->value = $_POST[$field->name] ? $_POST[$field->name] : '';
-
-				if ( $field->safeHtml )
-					$field->value = htmlentities($field->value, ENT_NOQUOTES , 'UTF-8' );
+				if ( isset($_POST[$field->name]) && $_POST[$field->name] != '' ) {
+					$field->value = $_POST[$field->name];
+					
+					if ( $field->safeHtml )
+						$field->value = htmlentities($field->value, ENT_NOQUOTES , 'UTF-8' );	
+				} else {
+					if ( $field->nullable ) {
+						$field->value = NULL;
+					} else {
+						$field->value = '';
+					}
+				}
 
 				$saveFields[$field->name] = $field->value;
 			}
@@ -953,6 +959,26 @@ class MY_Model extends CI_Model {
 
         return $arrReturn;
     }
+
+	/**
+	 * Saves to database a row using the array provided as parameter
+	 * The format of this array should be:
+	 * 
+	 * array( 'fieldName' => 'value', 'anotherField' => 'value' )
+	 * 
+	 * All fields must be in the model's table, otherwise a MySQL error will araise.
+	 * 
+	 * Returns the id of the new row created.
+	 * 
+	 * @param array $arrValues
+	 * @return int 
+	 */
+	static function saveFromArray($arrValues) {
+		$ci =& get_instance();
+		$ci->db->insert( static::$table, $arrValues );
+		return $ci->db->insert_id();
+	}
+	
 }
 
 /* End of file */

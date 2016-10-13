@@ -53,7 +53,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 					<?php endforeach; ?>
 					<td class="actions">
 						<?php if ( $model::$hasPage ) : ?>
-							<a href="<?= magico_urlclean($model->table, $row['id']) ?>" class="go"><img src="<?= MAGICO_PATH_IMG ?>/ir_32.png" title="<?= lang('magico_abm_go') ?> " /></a>
+							<a href="<?= magico_urlclean($model::$table, $row['id']) ?>" class="go"><img src="<?= MAGICO_PATH_IMG ?>/ir_32.png" title="<?= lang('magico_abm_go') ?> " /></a>
 						<?php endif; ?>
 						<a href="#" rel="<?= $row['id'] ?>" class="edit"><img src="<?= MAGICO_PATH_IMG ?>/edit_32.png" title="<?= lang('magico_abm_edit') ?> " /></a>
 						<a href="#" rel="<?= $row['id'] ?>" class="delete" ><img src="<?= MAGICO_PATH_IMG ?>/delete_32.png" title="<?= lang('magico_abm_delete') ?>" /></a>

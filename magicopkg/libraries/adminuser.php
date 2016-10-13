@@ -21,13 +21,13 @@ class AdminUser {
 	}
 	
 	/**
-	 * Logea al usuario a Mâgico
+	 * Login to Mâgico
 	 * 
 	 * @param String $user
 	 * @param String $pass
-	 * @param boolean $remember Crea una cookie que después se checkea desde el Master Controller para auto logearse
-	 * @param boolean $needMd5 Si el contraseña ya viene procesada con md5 asignar false
-	 * @return int Constantes de esta clase LOGGED_IN o NOT_LOGGED_IN más adelante quizás haya otras 
+	 * @param boolean $remember Creates a cookie that is checked by MasterController for autologin
+	 * @param boolean $needMd5 If the password is already md5ed set to false
+	 * @return int Constants self::LOGGED_IN or self::NOT_LOGGED_IN 
 	 */
 	function login($user, $pass, $remember, $needMd5 = true)
 	{
@@ -53,7 +53,7 @@ class AdminUser {
 			
 			
 			if ($remember)
-				setcookie(self::AUTOLOGIN_COOKIE_NAME, base64_encode($user->user.':'.$pass), time()+60*60*24*30, '/'); //30 días
+				setcookie(self::AUTOLOGIN_COOKIE_NAME, base64_encode($user->user.':'.$pass), time()+60*60*24*30, '/'); //30 days
 				
 			return self::LOGGED_IN;
 		}

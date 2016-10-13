@@ -7,7 +7,7 @@
 	
 	<div class="recuadroBlanco">
 		<div class="loginWrapper">
-			<img src="<?= MAGICO_PATH_IMG ?>/logo_parleboo.png" class="logo" />
+			<img src="<?= $this->config->item('admin_logo') ? $this->config->item('admin_logo') : MAGICO_PATH_IMG . "/logo_parleboo.png" ?>" class="logo" />
 			<form>
 				<fieldset>
 					<input name="user" type="text" value="<?= lang('magico_login_username') ?>" />

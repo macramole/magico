@@ -82,6 +82,13 @@ abstract class Field {
 	 */
 	public $table = null;
 	
+	/**
+	 * If the field is empty when post, set the field to null not ''
+	 * 
+	 * @var type 
+	 */
+	public $nullable = false;
+	
 	private $_parent;
 	
 	function __construct($label = null, $helptext = '', $defaultValue = '')

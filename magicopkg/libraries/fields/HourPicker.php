@@ -12,6 +12,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class HourPicker extends Field {
 	
 	public $safeHtml = false;
+	public $nullable = true;
 	
 	function render()
 	{
@@ -24,6 +25,16 @@ class HourPicker extends Field {
 		$data['helptext'] = $this->helptext;
 		
 		parent::render($data);
+	}
+	
+	function setDatabaseFields() {
+		parent::setDatabaseFields();
+		
+		$this->databaseFields = array (
+			$this->name => array(
+				'type' => 'TIME'
+			)
+		);
 	}
 }
 

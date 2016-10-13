@@ -3,8 +3,8 @@
 	<ul class="database-checklist">
         <?php foreach ($arrValues as $value) : ?>
         <li>
-            <input type="checkbox" name="<?=$name?>[]" value="<?= $value['id'] ?>" <?= $value['selected'] ? 'checked="checked"' : '' ?> />
-            <label><?= $value['value'] ?></label>
+            <input type="checkbox" name="<?=$name?>[]" value="<?= $value['id'] ?>" <?= isset($value['selected']) ? 'checked="checked"' : '' ?> />
+            <label><?= $value['title'] ?></label>
         </li>
         <?php endforeach; ?>
     </ul>

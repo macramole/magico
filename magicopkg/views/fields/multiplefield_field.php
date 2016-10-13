@@ -12,7 +12,7 @@
 			<?php $field->name = $tmpFieldName ?>
 		<?php endforeach; ?>
 			<td class="dragMe"><img src="<?= site_url('magicopkg/images/move_icon_white.gif') ?>" /></td>
-			<td class="delete"><img src="<?= site_url('magicopkg/images/delete_16.png') ?>" /></td>
+			<td class="delete"><img src="<?= site_url('magicopkg/images/delete_16.png') ?>" /> <input type="hidden" name="<?= $name ?>[]" value="<?= $rowNum ?>" /></td>
 		</tr>
 	</table>
 </li>				

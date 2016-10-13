@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '';
+$config['base_url'] = 'http://localhost/fooProject';
 
 /*
 |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'spanish';
+$config['language'] = 'english';
 
 /*
 |--------------------------------------------------------------------------
