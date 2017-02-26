@@ -12,7 +12,7 @@
 	top: 10%;
 	margin-left: 1%;
 	/*z-index: 2;*/
-	
+
 }
 
 #adminNav ul
@@ -20,10 +20,10 @@
 	list-style: none outside none;
 	padding: 0px;
 	margin: 0;
-	
+
 }
 
-#adminNav li 
+#adminNav li
 {
 	width: 32px;
 	height: 32px;
@@ -49,14 +49,14 @@
 #adminNav li img.big
 {
 	width: 130%;
-	margin-left: -15%; 
+	margin-left: -15%;
 	margin-top: -15%;
 }
 
 #adminNav li img.bigger
 {
 	width: 180%;
-	margin-left: -30%; 
+	margin-left: -30%;
 	margin-top: -40%;
 }
 
@@ -104,7 +104,7 @@
     width: 20px;
 	cursor: nw-resize;
 }*/
-	
+
 #adminNavItems
 {
 	background-color: #097A69;
@@ -128,17 +128,17 @@
 	list-style-type: none;
 	padding: 0 0 10px 0;
 	margin: 0;
-	
+
 }
 
-#adminNavItems li 
+#adminNavItems li
 {
 	font-size: 0.9em;
 	line-height: normal;
 	padding: 5px 20px;
 	border-radius: 4px;
 	text-align: left;
-	
+
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -177,7 +177,7 @@
 	margin-bottom: 10px;
 	margin-top: 10px;
 	text-align: center;
-	/*background-color: #097A69;*/	
+	/*background-color: #097A69;*/
 }
 
 #adminNavItems li.title:first-child
@@ -254,7 +254,7 @@
 	background: -o-linear-gradient(top, rgba(234,239,222,1) 0%,rgba(218,237,175,1) 56%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top, rgba(234,239,222,1) 0%,rgba(218,237,175,1) 56%); /* IE10+ */
 	background: linear-gradient(top, rgba(234,239,222,1) 0%,rgba(218,237,175,1) 56%); /* W3C */
-	
+
     box-shadow: 1px 1px 1px 0 #85B719;
 }
 
@@ -294,7 +294,7 @@
 #abm.edit .fieldsWrapper
 {
 	/*background: -moz-linear-gradient(center top , #FFF5D8 0%, #FFE89E 56%);*/
-	
+
 	background: rgb(255,245,216); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(255,245,216,1) 0%, rgba(255,232,158,1) 56%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,245,216,1)), color-stop(56%,rgba(255,232,158,1))); /* Chrome,Safari4+ */
@@ -302,12 +302,12 @@
 	background: -o-linear-gradient(top, rgba(255,245,216,1) 0%,rgba(255,232,158,1) 56%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top, rgba(255,245,216,1) 0%,rgba(255,232,158,1) 56%); /* IE10+ */
 	background: linear-gradient(top, rgba(255,245,216,1) 0%,rgba(255,232,158,1) 56%);
-	
-	
-	
+
+
+
     border-radius: 5px 5px 5px 5px;
     box-shadow: 1px 1px 1px 0 #BF991E;
-   
+
 	/*padding-bottom: 30px;*/
     padding-right: 30px;
     /*padding-top: 30px;	*/
@@ -355,7 +355,7 @@
     font-size: 1em;
     height: 25px;
     padding: 7px 5px 5px 55px;
-    width: 73.5%;
+    width: 72.9%;
 }
 
 #abm.customList #listSearch
@@ -371,7 +371,7 @@
 
 #abm.list .fieldsWrapper
 {
-	
+
 	background: #abd1e8; /* Old browsers */
 	background: -moz-linear-gradient(top, #abd1e8 0%, #d3e1ea 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#abd1e8), color-stop(100%,#d3e1ea)); /* Chrome,Safari4+ */
@@ -380,7 +380,7 @@
 	background: -ms-linear-gradient(top, #abd1e8 0%,#d3e1ea 100%); /* IE10+ */
 	background: linear-gradient(top, #abd1e8 0%,#d3e1ea 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#abd1e8', endColorstr='#d3e1ea',GradientType=0 ); /* IE6-9 */
-	
+
     border-radius: 5px 5px 5px 5px;
     box-shadow: 1px 1px 2px 0 #7C97A5;
     clear: both;
@@ -472,7 +472,7 @@
 	font-family: "Trebuchet MS";
     font-size: 1em;
     width: 100%;
-	
+
 	border-top-color: #CECECE;
 	border-right-color: #C6C6C6;
 	border-bottom-color: #A4A4A4;
@@ -484,7 +484,7 @@
 	padding: 3px 7px;
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;  
+	box-sizing: border-box;
 	color: #3C3C3C;
 }
 
@@ -499,7 +499,7 @@
 	font-family: "Trebuchet MS";
     font-size: 1em;
     width: 100%;
-	
+
 	border-top-color: #CECECE;
 	border-right-color: #C6C6C6;
 	border-bottom-color: #A4A4A4;
@@ -509,14 +509,14 @@
 	border-radius: 4px;
 	border-style: solid;
 	padding: 3px 7px;
-	
+
 	color: black;
 	background-color: white;
-	
+
 	cursor: pointer;
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;  
+	box-sizing: border-box;
 }
 
 #abm .input-select-forced
@@ -558,7 +558,7 @@
 	background: -ms-linear-gradient(top, #ededed 0%,#d6d6d6 100%); /* IE10+ */
 	background: linear-gradient(top, #ededed 0%,#d6d6d6 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#d6d6d6',GradientType=0 ); /* IE6-9 */
-    
+
 	border: 1px solid #9E9E9E;
     border-radius: 5px;
     box-shadow: 1px 1px 2px -1px;
@@ -567,7 +567,7 @@
     font-family: "Trebuchet MS";
     letter-spacing: 1px;
     padding: 3px 15px;
-	
+
 	font-size: 13px;
 	margin-right: 5px;
 }
@@ -595,7 +595,7 @@
 	position: relative;
 	top: 1px;
 	left: 1px;
-	
+
 	background: #d6d6d6; /* Old browsers */
 	background: -moz-linear-gradient(top, #d6d6d6 0%, #ededed 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d6d6d6), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
@@ -638,7 +638,7 @@
 }
 
 #abm td.field_DatabaseMultiSelect select
-{	
+{
 	width: 688px;
 }
 
@@ -647,7 +647,7 @@
 	font-size: 0.9em;
     font-weight: normal;
     width: 1%;
-	
+
 	padding: 5px 10px 5px 0;
 }
 
@@ -709,7 +709,7 @@
 {
 	background-color: #7797B7;
 	border-radius: 2px 2px 2px 2px;
-	
+
 	float: left;
 	font-size: 13px;
 	margin-left: 10px;
@@ -735,7 +735,7 @@
 #abm td.field_ForeignModel .wrapper li.translate
 {
 	opacity: 0.3;
-	
+
 	-webkit-transition: opacity 0.5s;
 	-moz-transition: opacity 0.5s;
 	-o-transition: opacity 0.5s;
@@ -814,7 +814,7 @@
 
 #abm option.SimpleSelect_new
 {
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #abm td.field_TextArea textarea
@@ -824,7 +824,7 @@
     height: 100px;
     margin-bottom: 10px;
     margin-top: 5px;
-	
+
 	border-top-color: #CECECE;
 	border-right-color: #C6C6C6;
 	border-bottom-color: #A4A4A4;
@@ -884,7 +884,7 @@
     color: #444444;
     font-size: 0.9em;
     cursor: pointer;
-	
+
 	-moz-user-select: -moz-none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
@@ -979,7 +979,7 @@
 	font-size: 1.1em !important;
 	border: none !important;
 	box-shadow: 1px 1px 4px 2px #097A69;
-	
+
 }
 
 /********** ALOHA ************/
@@ -1021,13 +1021,13 @@ section#parlebooLogin
 	position: absolute;
 	top: 0;
 	left: 0;
-	
+
 	margin: 0;
 	padding: 0;
-	
+
 	min-height: 0;
 	max-height: none;
-	
+
 	background: none repeat scroll 0 0 transparent;
 }
 
@@ -1071,7 +1071,7 @@ section#parlebooLogin fieldset
     padding-top: 50px;
     position: relative;
     top: -32px;
-	
+
 	background: #e8f2d5; /* Old browsers */
 	background: -moz-linear-gradient(top,  #e8f2d5 0%, #96cb3f 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e8f2d5), color-stop(100%,#96cb3f)); /* Chrome,Safari4+ */
@@ -1112,7 +1112,7 @@ section#parlebooLogin fieldset button
 	background: -ms-linear-gradient(top, #ededed 0%,#d6d6d6 100%); /* IE10+ */
 	background: linear-gradient(top, #ededed 0%,#d6d6d6 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#d6d6d6',GradientType=0 ); /* IE6-9 */
-    
+
 	border: 1px solid #9E9E9E;
 	border-radius: 15px 15px 15px 15px;
 	box-shadow: 1px 1px 2px -1px;
@@ -1147,7 +1147,7 @@ section#parlebooLogin fieldset button:active
 	position: relative;
 	top: 1px;
 	left: 1px;
-	
+
 	background: #d6d6d6; /* Old browsers */
 	background: -moz-linear-gradient(top, #d6d6d6 0%, #ededed 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d6d6d6), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
@@ -1226,7 +1226,7 @@ section#parlebooLogin p
 
 #magico_tutorial .paso p
 {
-	
+
 }
 
 #magico_tutorial .paso .botones
@@ -1237,7 +1237,7 @@ section#parlebooLogin p
 #magico_tutorial .paso .botones button
 {
 	font-family: "Trebuchet MS";
-	
+
 	background-color: #90C730;
     border-radius: 3px 3px 3px 3px;
     color: #4F4F4F;
@@ -1256,7 +1256,7 @@ section#parlebooLogin p
 	margin-bottom: 8px;
 	color: #52701C;
 	border: 1px solid #709926;
-	
+
 	background: #eeffcc; /* Old browsers */
 	background: -moz-linear-gradient(top,  #eeffcc 0%, #9ed334 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeffcc), color-stop(100%,#9ed334)); /* Chrome,Safari4+ */
@@ -1268,7 +1268,7 @@ section#parlebooLogin p
 }
 
 #magico_tutorial .paso .botones button.si:hover
-{	
+{
 	background: #eeffcc; /* Old browsers */
 	background: -moz-linear-gradient(top,  #eeffcc 0%, #aae238 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeffcc), color-stop(100%,#aae238)); /* Chrome,Safari4+ */
@@ -1299,7 +1299,7 @@ section#parlebooLogin p
 	float: right;
 	color: #3D1212;
 	border: 1px solid #E13A3A;
-	
+
 	background: #ffcece; /* Old browsers */
 	background: -moz-linear-gradient(top,  #ffcece 0%, #d13634 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffcece), color-stop(100%,#d13634)); /* Chrome,Safari4+ */
@@ -1311,7 +1311,7 @@ section#parlebooLogin p
 }
 
 #magico_tutorial .paso .botones button.no:hover
-{	
+{
 	background: #ffcece; /* Old browsers */
 	background: -moz-linear-gradient(top,  #ffcece 0%, #e03838 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffcece), color-stop(100%,#e03838)); /* Chrome,Safari4+ */
