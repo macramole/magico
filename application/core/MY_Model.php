@@ -21,87 +21,87 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * CodeIgniter object
-	 * @var type 
+	 * @var type
 	 */
 	protected $ci;
-	
+
 	/**
 	 * Associated table in the database. Note that some models can be associated with more than one table using
 	 * fields with $autoSave = true and have overrided corresponding methods. See Field.php for more information
-	 * 
+	 *
 	 * IT IS MANDATORY TO FILL THIS VARIABLE
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 */
 	public static $table;
-	
+
 	/**
 	 * This is the name that will appear to the enduser
-	 * 
+	 *
 	 * IT IS MANDATORY TO FILL THIS VARIABLE
-	 * 
+	 *
 	 * @var string
 	 */
 	public static $name;
-	
+
 	/**
 	 * Should it show up in the navigation/add menu?
-	 * 
+	 *
 	 * @var string
 	 */
 	public static $showInNavAdd = true;
-	
+
 	/**
 	 * Should it show up in the navigation/configuration menu?
-	 * 
+	 *
 	 * @var string
 	 */
 	public static $showInNavConfig = true;
-	
+
 	/**
 	 * Where is magico redirecting the user after a successfull add or edit content.
 	 * You can use curly braces with placeholders to use fields values. This is pretty neat, use it like:
-	 * 
+	 *
 	 * contents/{title}
-	 * 
+	 *
 	 * A clear url will be created with the title of the content. You can also use foreign models here,
-	 * just make sure it has the field "title", for example this model has a TextField named title and a 
+	 * just make sure it has the field "title", for example this model has a TextField named title and a
 	 * DatabaseSelect named idCategory you can use:
-	 * 
+	 *
 	 * contents/{idCategory}/{title}
-	 * 
+	 *
 	 * @var string
 	 */
 	public static $returnURL = '';
-	
+
 	/**
 	 * Set this to true if there is a page in the site that shows this model to users.
 	 * It will create a fancy cleanURL and add an icon in the CRUD list to go directly to there
-	 * 
-	 * @var boolean 
+	 *
+	 * @var boolean
 	 */
 	public static $hasPage = true;
-	
+
 	/**
 	 * Is this content in different languages ?
 	 * If it is an array with the fields that DOES NOT change between languages, like images, or true if no field is kept
 	 * Some autoSaving fields don't support this.. yet.
 	 * Make sure the table has a field "language" VARCHAR 2 PK
-	 * 
+	 *
 	 * @var mixed
 	*/
 	public static $i18n = false;
-	
+
 	/**
 	 * Set this to a string if this type of content needs double delete confirmation since it also deletes associated content.
 	 * For example, if this is a category and content of this category will be deleted you should set it to something like
 	 * "All associated content will be deleted, proceed ?"
-	 * 
+	 *
 	 * @var mixed (false or string)
 	 */
 	public static $needsDeleteConfirmation = false;
 
-	
+
 	/**
 	 * If set to true, and this is i18n, the content will be cloned to the other languages. Later the user can translate the
 	 * fields for each other language.
@@ -110,27 +110,32 @@ class MY_Model extends CI_Model {
 	 * @var boolean
 	 */
 	public static $autoCloneI18N = false;
-	
+
+	/**
+	* Is it sortable ? Table will have a weight attribute and lists will be sorted
+	*/
+	protected static $sortable = false;
+
 	/**
 	 * Array of Fields. Set this in child class like $this->fields['column_in_database'] = new WhateverField();
-	 * 
+	 *
 	 * This is the whole point of using Mâgico
-	 * 
+	 *
 	 * @var array
 	 */
 	public $fields = array();
 
 	/**
 	 * The id of the current selected row. This is set internally, don't mess with this.
-	 * 
-	 * @var type 
+	 *
+	 * @var type
 	 */
 	public $id = null;
-	
+
 	/**
 	 * If the content is not available in the current language but the same content exists in other language. (internal use)
-	 * 
-	 * @var type 
+	 *
+	 * @var type
 	 */
 	protected $translating = false;
 
@@ -141,7 +146,7 @@ class MY_Model extends CI_Model {
 		$this->setFieldsDatabaseFields();
 
 		if ( $id ) {
-			$this->loadId($id, $language);			
+			$this->loadId($id, $language);
 		}
 
 		spl_autoload_register(array($this,'_autoIncludeFields'));
@@ -152,10 +157,10 @@ class MY_Model extends CI_Model {
 		$name = strtolower($name);
 		@include_once("application/models/$name.php");
 	}
-	
+
 	/**
 	 * Loads a content of this type
-	 * 
+	 *
 	 * @param int $id
 	 * @param string $language
 	 */
@@ -167,9 +172,9 @@ class MY_Model extends CI_Model {
 	}
 	/**
 	 * OVERRIDE THIS FUNCTION IN ORDER TO VALIDATE YOUR MODELS IN CRUD FORM
-	 * 
+	 *
 	 * Field values will be in $_POST. Should return an array ( 'field_name' => 'error' ) or null if there is no error.
-	 * 
+	 *
 	 * @return null
 	 */
 	function validate()
@@ -181,11 +186,11 @@ class MY_Model extends CI_Model {
 			return $this->ci->form_validation->get_error_array();
 		}
 	}
-	
+
 	/**
 	 * Sets the parents of the fields.
 	 * Is recursive since some fields also has it's fields.
-	 * 
+	 *
 	 * @param type $context
 	 */
 	protected function setFieldsParent( &$context = null) {
@@ -200,7 +205,7 @@ class MY_Model extends CI_Model {
 				$this->setFieldsParent( $field );
 		}
 	}
-	
+
 	/**
 	 * Call all fields to set its databaseFields (for CLI use)
 	 */
@@ -213,7 +218,7 @@ class MY_Model extends CI_Model {
 	/**
 	 * Sets the value of the fields getting the data from the database in order to show them later in the CRUD form
 	 * autoSaving Fields must implement a setFieldValue method.
-	 * 
+	 *
 	 * @param type $language
 	 * @throws Exception
 	 */
@@ -225,7 +230,7 @@ class MY_Model extends CI_Model {
 
 		if ( static::$i18n )
 			$lang = $language ? $language : $this->ci->lang->lang_abm();
-		
+
 		if ( !isset($lang) )
 			$row = $arrContent[0];
 		else
@@ -267,7 +272,7 @@ class MY_Model extends CI_Model {
 	 * Array with Fields names in order to mark them as listable. If they are listables they will show up in the CRUD list.
 	 * Use non autoSaving fields or foreignKey fields with title
 	 * It is also possible to send the constant FIELD_LISTABLE_ALL
-	 * 
+	 *
 	 * @param array $arrFields
 	 */
 	function setListableFields($arrFields)
@@ -290,7 +295,7 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * Return an array of objects of type Field that are listable (internal use)
-	 * 
+	 *
 	 * @param boolean $onlyNames Only names (strings not objects) will be returned
 	 * @return array
 	 */
@@ -314,7 +319,7 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * Array with a list of contents of this model with its listable fields. CRUD list uses this. (internal use)
-	 * 
+	 *
 	 * @param type $where
 	 * @param type $page not implemented yet
 	 * @return type
@@ -360,7 +365,7 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * Gets a list of contents of this model with its listable fields in json (internal use)
-	 * 
+	 *
 	 * @param type $page
 	 */
 	function getListJSON($page = null) {
@@ -369,7 +374,7 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * What type of CRUD operation are we doing ? (internal use)
-	 * 
+	 *
 	 * @return type
 	 */
 	function getOperation()
@@ -382,7 +387,7 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * Saves POST data to the database. Controller abm.php uses this.
-	 * 
+	 *
 	 * @return int id of generated content
 	 */
 	function save()
@@ -395,9 +400,9 @@ class MY_Model extends CI_Model {
 			{
 				if ( isset($_POST[$field->name]) && $_POST[$field->name] != '' ) {
 					$field->value = $_POST[$field->name];
-					
+
 					if ( $field->safeHtml )
-						$field->value = htmlentities($field->value, ENT_NOQUOTES , 'UTF-8' );	
+						$field->value = htmlentities($field->value, ENT_NOQUOTES , 'UTF-8' );
 				} else {
 					if ( $field->nullable ) {
 						$field->value = NULL;
@@ -410,12 +415,12 @@ class MY_Model extends CI_Model {
 			}
 
 		}
-		
+
 		//I'll save fields shared between languages now (if any)
 		if ( static::$i18n )
 		{
 			$saveFields['language'] = $this->ci->lang->lang_abm();
-			
+
 			if ( $this->getOperation() == self::OPERATION_EDIT && is_array(static::$i18n) )
 			{
 				$arrI18NContent = $this->ci->db->query("SELECT language FROM " . static::$table . " WHERE id = ? AND language <> ? ", array( $this->id, $saveFields['language'] ))->result_array();
@@ -438,8 +443,8 @@ class MY_Model extends CI_Model {
 			if ( $this->isTranslating() )
 				$saveFields['id'] = $this->id;
 		}
-			
-		
+
+
 		// Ok now, let's save it for real
 		if ( $this->getOperation() == self::OPERATION_CREATE || $this->isTranslating() )
 		{
@@ -455,12 +460,12 @@ class MY_Model extends CI_Model {
 					 * @todo Autosaving fields don't get cloned, luckly they are usually language agnostic (like images)
 					 * and if they are not you will usually don't want them to be cloned
 					 */
-					
+
 					if ( $this->ci->config->item('magico_auto_clone_i18n') || static::$autoCloneI18N  )
 					{
 						$actualLanguage = $saveFields['language'];
 						$saveFields['id'] = $this->id;
-						
+
 						foreach ( $this->ci->lang->getLanguagesCodes() as $language )
 						{
 							if ( $language != $actualLanguage )
@@ -484,7 +489,7 @@ class MY_Model extends CI_Model {
 
 			$this->ci->db->update(static::$table, $saveFields);
 		}
-		
+
 		//And now let's save autosaving fields
 		foreach ( $this->fields as &$field )
 		{
@@ -497,10 +502,10 @@ class MY_Model extends CI_Model {
 
 		return $this->id;
 	}
-	
+
 	/**
 	 * Saves just one field. It's now being used by CKEDITOR's "editables". $_POST['data'] should have the data.
-	 * 
+	 *
 	 * @param string $field Nombre del field
 	 */
 	public function saveField( $field )
@@ -520,14 +525,14 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * Transforms the string to a cleanURL compatible one
-	 * 
+	 *
 	 * @param type $string
 	 * @return type
 	 */
 	public static function cleanURL( $string )
 	{
 		setlocale(LC_ALL, 'en_US.UTF8');
-        
+
         $clean = html_entity_decode($string);
         $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $clean);
         $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
@@ -536,13 +541,13 @@ class MY_Model extends CI_Model {
 
         return $clean;
 	}
-	
+
 	/**
 	 * Saves the generated cleanURL to the clean_urls table in the database.(internal use)
 	 * If the content is i18n it updates all
 	 */
 	function saveClean()
-	{	
+	{
 		$arrDelete = array('table' => static::$table, 'node_id' => $this->id);
 		$this->ci->db->delete(self::CLEAN_URLS_TABLE, $arrDelete);
 
@@ -559,7 +564,7 @@ class MY_Model extends CI_Model {
 			{
 				$actualLanguage = $this->ci->lang->lang_abm();
 				$this->saveCleanOne( $actualLanguage ); //guardo el actual
-				
+
 				foreach ( $this->ci->lang->getLanguagesCodes() as $language )
 				{
 					if ( $language != $actualLanguage )
@@ -574,9 +579,9 @@ class MY_Model extends CI_Model {
 	}
 
 	/**
-	 * Saves the generated cleanURL to the clean_urls table in the database. If the cleanURL exists adds a number.  
+	 * Saves the generated cleanURL to the clean_urls table in the database. If the cleanURL exists adds a number.
 	 * (internal use)
-	 *  
+	 *
 	 * @param mixed $language null | array of strings | string
 	 */
 	private function saveCleanOne($language = null)
@@ -617,13 +622,13 @@ class MY_Model extends CI_Model {
 				}
 			}
 		}
-		else 
+		else
 			$this->ci->db->insert(self::CLEAN_URLS_TABLE, $arrInsert);
 	}
 
 	/**
 	 * Gets the cleanURL of current content
-	 * 
+	 *
 	 * @return string
 	 */
 	function getCleanUrl() {
@@ -631,7 +636,7 @@ class MY_Model extends CI_Model {
 
 		if ( static::$i18n )
 			$arrGet['language'] = $this->ci->lang->lang_abm();
-		
+
 		$row = $this->ci->db->get_where(self::CLEAN_URLS_TABLE, $arrGet)->row_array();
 
 		if ( $row )
@@ -652,9 +657,9 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * Builds the return url replacing placeholders
-	 * 
+	 *
 	 * @param boolean $absolute Do you want the absolute or relative url ?
-	 * @return String La url 
+	 * @return String La url
 	 */
 	function buildReturnURL($absolute = true)
 	{
@@ -693,7 +698,7 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * Deletes the current content
-	 * 
+	 *
 	 * @return type
 	 */
 	function delete() {
@@ -736,14 +741,14 @@ class MY_Model extends CI_Model {
 	function isTranslating() {
 		return $this->translating;
 	}
-    
+
     /** CLI TOOLS **/
-	
+
 	/**
 	 * Create all tables needed for this model to work. Foreign Models tables won't be created. Call modelToDatabase for each.
-	 * 
+	 *
 	 * This is a recursive function, hence the $context parameter. Don't use this parameter unless you know what you are doing.
-	 * 
+	 *
 	 * @param boolean $dropFirst Drop the tables first ?
 	 * @param Field $context
 	 */
@@ -751,21 +756,27 @@ class MY_Model extends CI_Model {
 		$this->ci->load->dbforge();
 		$fields = array();
 		$verbose = false;
-		
+
 		if ( is_null($context) ) {
 			$context = $this;
 		}
-		
+
 		if ( $context == $this && $dropFirst ) {
 			$this->dropTable();
 		}
-		
+
 		$fields += array('id' => array(
 			'type' => 'INT',
 			'unsigned' => true,
 			'auto_increment' => true
 		));
-		
+
+		if ( static::$sortable ) {
+			$fields += array('weight' => array(
+				'type' => 'INT'
+			));
+		}
+
 		if ( $context == $this ) {
 			foreach ( $context->fields as $field ) {
 				if ( is_null($field->table) ) {
@@ -777,16 +788,16 @@ class MY_Model extends CI_Model {
 		} else {
 			$fields += $context->databaseFields;
 		}
-		
+
 		$this->ci->dbforge->add_field($fields);
 		$this->ci->dbforge->add_key('id', true);
-		
+
 		if ( $context == $this ) {
 			echo "Creating table: '" . static::$table . "'" . PHP_EOL;
 			if ( $verbose ) {
 				print_r($fields);
 			}
-			
+
 			$this->ci->dbforge->create_table( static::$table );
 		} else {
 			echo "Creating table: '{$context->table}' of " . get_class($context) . " '{$context->name}'" . PHP_EOL;
@@ -796,12 +807,12 @@ class MY_Model extends CI_Model {
 			$this->ci->dbforge->create_table( $context->table );
 		}
 	}
-	
+
 	/**
 	 * Drop all the tables associated with this model. Foreign Models tables won't be dropped. Call dropModelTables for each.
-	 * 
+	 *
 	 * This is a recursive function, hence the $context parameter. Don't use this parameter unless you know what you are doing.
-	 * 
+	 *
 	 * @param Field $context
 	 */
 	function dropTable($context = null) {
@@ -814,23 +825,23 @@ class MY_Model extends CI_Model {
 				$this->dropTable($field);
 			}
 		}
-		
+
 		$this->ci->load->dbforge();
-		
+
 		if ( $context == $this ) {
 			echo "Dropping table: '" . static::$table . "'" . PHP_EOL;
 			$this->ci->dbforge->drop_table( static::$table );
 		} else {
 			echo "Dropping table: '" . $context->table . "'" . PHP_EOL;
-			$this->ci->dbforge->drop_table( $context->table );	
+			$this->ci->dbforge->drop_table( $context->table );
 		}
 	}
-	
+
     /** STATIC METHODS (work in progress) **/
-    
+
     /**
      * Get a row from the database as an array by id
-     * 
+     *
      * @param int $id
      * @param int $image_width
      * @param int $image_height
@@ -840,7 +851,7 @@ class MY_Model extends CI_Model {
     static function getRowArray($id, $image_width = null, $image_height = null, $image_flag = 0, $language = MAGICO_AUTO) {
         $ci =& get_instance();
         $table = static::$table;
-	
+
         if ( $language == MAGICO_AUTO ) {
             if ( $ci->lang->has_language() )
                 $language = $ci->lang->lang();
@@ -863,31 +874,31 @@ class MY_Model extends CI_Model {
         ";
 
         $where = " WHERE t.id = ?";
-        
+
         if ( $language ) {
             $sql .= " AND cu.language='$language' ";
             $where .= " AND t.language='$language'";
         }
-        
+
         $sql .= $where;
-        
+
         $rowReturn = $ci->db->query($sql, array($id))->row_array();
-        
+
         if ( $imagen )
             $rowReturn['imagen'] = magico_thumb ($rowReturn['imagen'], $image_width, $image_height);
-        
+
         if ( $rowReturn['url'] )
             $rowReturn['url'] = site_url($rowReturn['url']);
 
         return $rowReturn;
     }
-    
+
 	/**
 	 * Returns an array with rows from the database. It will have an extra field "url" with it's clean url if exists or null otherwise
-	 * 
+	 *
 	 * If argument "image_width" and/or "image_height" is provided it will also return a field "imagen" with the url of the image with flag "image_flag"
 	 * with provided dimensions using configured cropping method (see config/magico_config.php)
-	 * 
+	 *
 	 * @param int $image_width null or required image width
 	 * @param int $image_height null or required image height
 	 * @param int $image_flag file flag
@@ -901,7 +912,7 @@ class MY_Model extends CI_Model {
     {
         $ci =& get_instance();
         $table = static::$table;
-	
+
         if ( $language == MAGICO_AUTO )
         {
             if ( $ci->lang->has_language() )
@@ -942,6 +953,9 @@ class MY_Model extends CI_Model {
 
         if ( $order_by )
             $sql .= " ORDER BY $order_by ";
+		elseif ( static::$sortable ) {
+			$sql .= " ORDER BY t.weight ASC ";
+		}
 
         if ( $limit )
             $sql .= " LIMIT $limit ";
@@ -963,22 +977,22 @@ class MY_Model extends CI_Model {
 	/**
 	 * Saves to database a row using the array provided as parameter
 	 * The format of this array should be:
-	 * 
+	 *
 	 * array( 'fieldName' => 'value', 'anotherField' => 'value' )
-	 * 
+	 *
 	 * All fields must be in the model's table, otherwise a MySQL error will araise.
-	 * 
+	 *
 	 * Returns the id of the new row created.
-	 * 
+	 *
 	 * @param array $arrValues
-	 * @return int 
+	 * @return int
 	 */
 	static function saveFromArray($arrValues) {
 		$ci =& get_instance();
 		$ci->db->insert( static::$table, $arrValues );
 		return $ci->db->insert_id();
 	}
-	
+
 }
 
 /* End of file */

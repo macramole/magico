@@ -118,7 +118,7 @@ div.pp_overlay{background:#FFF;display:none;left:0;position:absolute;top:0;width
 div.pp_pic_holder{display:none;position:absolute;width:100px;z-index:10000}
 .pp_content{min-height:40px;min-width:40px;}
 * html .pp_content{width:40px}
-.pp_content_container{position:relative;text-align:left;width:101%; border: 6px solid #6D6D6D; border-radius: 5px; padding: 20px; background-color: white; width: 40px; height: 40px; overflow: hidden}
+.pp_content_container{position:relative;text-align:left;width:101%; padding: 20px; background-color: white; width: 40px; height: 40px; overflow: hidden}
 .pp_content_container .pp_left{padding-left:20px}
 .pp_content_container .pp_right{padding-right:20px}
 .pp_content_container .pp_details{float:left;margin:10px 0 2px}
