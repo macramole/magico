@@ -106,7 +106,7 @@ class AdminUser {
 		setcookie(self::AUTOLOGIN_COOKIE_NAME,'',time() - 3600, '/');
 	}
 
-	function isLogged()
+	static function isLogged()
 	{
 		return isset($_SESSION['admin']);
 	}
